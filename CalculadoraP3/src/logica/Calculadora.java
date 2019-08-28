@@ -25,11 +25,10 @@ public class Calculadora
 	{
 		if(c.equals("C"))//RESETEAR
 			resetear(); 
-		
+	
 		else if (c.equals("<"))//BORRAR
 			borrarUltimoValor();
-								
-		
+									
 		else if(c.equals("="))//CALCULAR 
 		{
 			if(numeros.size() == 0 && numeroActual.length() == 0)//Si no se agrego ningun numero y no se estuvo formando uno retornamos.
