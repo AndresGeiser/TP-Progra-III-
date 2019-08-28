@@ -23,7 +23,7 @@ public class Calculadora
 	
 	public void obtenerValor(String c) 
 	{
-		if(c.equals("C"))//RESETEAR
+		if(c.equals("C"))//RESETEARr
 			resetear(); 
 		
 		else if (c.equals("<"))//BORRAR
