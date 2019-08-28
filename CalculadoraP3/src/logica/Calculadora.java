@@ -7,7 +7,7 @@ public class Calculadora
 	ArrayList<Integer> numeros;
 	ArrayList<String> signos;
 	
-	String numero; //Numero que estara formando
+	String numeroActual; //Numero que estara formando
 	int resultado;
 
 	
@@ -17,7 +17,7 @@ public class Calculadora
 		numeros = new ArrayList<Integer>();
 		signos = new ArrayList<String>();
 		resultado = 0;
-		numero = "";
+		numeroActual = "";
 	}
 	
 	
@@ -27,56 +27,61 @@ public class Calculadora
 			resetear(); 
 		
 		else if (c.equals("<"))//BORRAR
-		{
-			if(numero.length() == 0)//Si no estaba formando un numero.
-			{
-				signos.remove(signos.size() - 1);							//Pasamos a borrar el ultimo signo ingresado
-				numero = String.valueOf(numeros.get(numeros.size() -1));	//y ponemos en "edicion" al ultimo numero ingresado.
-				numeros.remove(numeros.size() - 1);							//Sacamos ese ultimo numero del array.
-			}
-			else
-				numero = numero.substring(0, numero.length() - 1); //Borramos el ultimo caracter del numero en "edicion".
+			borrarUltimoValor();
 								
-		}
+		
 		else if(c.equals("="))//CALCULAR 
 		{
-			if(numeros.size() == 0 && numero.length() == 0)//Si no se agrego ningun numero y no se estuvo formando uno retornamos.
+			if(numeros.size() == 0 && numeroActual.length() == 0)//Si no se agrego ningun numero y no se estuvo formando uno retornamos.
 				return;
 			
-			if(numeros.size() == 0 && numero.length() > 0)//Si no se agrego ningun numero y se estuvo formando uno agregamos este ultimo.
+			if(numeros.size() == 0 && numeroActual.length() > 0)//Si no se agrego ningun numero y se estuvo formando uno agregamos este ultimo.
 			{
-				numeros.add(Integer.parseInt(numero));
-				numero = "";
+				numeros.add(Integer.parseInt(numeroActual));
+				numeroActual = "";
 			}
 						
-			if(numero.length() != 0) //Chequeamos que se estuviera formando un numero antes de agregarlo.
-				numeros.add(Integer.parseInt(numero));
+			if(numeroActual.length() != 0) //Chequeamos que se estuviera formando un numero antes de agregarlo.
+				numeros.add(Integer.parseInt(numeroActual));
 			
 			calcular(); 
-			numero = "";
+			numeroActual = "";
 
 		}
 		else if(c.equals("+") || c.equals("-") || c.equals("/") || c.equals("*"))
 		{		
-			if(numero == "" && signos.size() > 0)	//Chequeamos si por ultima vez se estaba formando un numero o si se 
+			if(numeroActual == "" && signos.size() > 0)	//Chequeamos si por ultima vez se estaba formando un numero o si se 
 				signos.set(signos.size() - 1, c);	//agrego un signo, de ser esto ultimo, se lo reemplaza.	
 			else 
 				signos.add(c);
 				
-			if(signos.size() == 1 && numero.length() == 0 && numeros.size() == 0)	//Si se agrego un signo sin que halla ningun
+			if(signos.size() == 1 && numeroActual.length() == 0 && numeros.size() == 0)	//Si se agrego un signo sin que halla ningun
 			{																		//numero se lo elimina.		
 				signos.remove(0);
 				return;
 			}
 			
-			if(numero != "")
-				numeros.add(Integer.parseInt(numero));
+			if(numeroActual != "")
+				numeros.add(Integer.parseInt(numeroActual));
 			
-			numero = "";
+			numeroActual = "";
 		}
 		else 
-			numero = numero + c;
+			numeroActual = numeroActual + c;
 		
+	}
+
+
+	private void borrarUltimoValor() 
+	{
+		if(numeroActual.length() == 0)//Si no estaba formando un numero.
+		{
+			signos.remove(signos.size() - 1);								//Pasamos a borrar el ultimo signo ingresado
+			numeroActual = String.valueOf(numeros.get(numeros.size() -1));	//y ponemos en "edicion" al ultimo numero ingresado.
+			numeros.remove(numeros.size() - 1);								//Sacamos ese ultimo numero del array.
+		}
+		else
+			numeroActual = numeroActual.substring(0, numeroActual.length() - 1); 			//Borramos el ultimo caracter del numero en "edicion".
 	}
 	
 	private void calcular() 
@@ -107,7 +112,7 @@ public class Calculadora
 	
 	private void resetear() //Funcion que resetea todos los datos de la calculadora
 	{	
-		numero = "";
+		numeroActual = "";
 		resultado = 0;
 		
 		while(numeros.size() != 0)
