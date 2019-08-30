@@ -4,72 +4,74 @@ import java.util.ArrayList;
 
 public class Calculadora 
 {
-	ArrayList<Integer> numeros;
-	ArrayList<String> signos;
+	private ArrayList<Double> numeros;
+	private ArrayList<String> signos;
 	
-	String numeroActual; //Numero que estara formando
-	int resultado;
-
+	private String numeroActual; //Numero que estara formando
+	private double resultado;
 	
 	///////////////CONSTRUCTOR///////////////
 	public Calculadora()
 	{
-		numeros = new ArrayList<Integer>();
+		numeros = new ArrayList<Double>();
 		signos = new ArrayList<String>();
 		resultado = 0;
-		numeroActual = "";
+		numeroActual = "0";
 	}
 	
 	
-	public void obtenerValor(String c) 
+	public void obtenerValor(String valor) 
 	{
-		if(c.equals("C"))//RESETEAR
+		if(valor.equals("C"))//RESETEAR
 			resetear(); 
 	
-		else if (c.equals("<"))//BORRAR
+		else if (valor.equals("<"))//BORRAR
 			borrarUltimoValor();
 									
-		else if(c.equals("="))//CALCULAR 
+		else if(valor.equals("="))//CALCULAR 
 		{
 			if(numeros.size() == 0 && numeroActual.length() == 0)//Si no se agrego ningun numero y no se estuvo formando uno retornamos.
 				return;
 			
 			if(numeros.size() == 0 && numeroActual.length() > 0)//Si no se agrego ningun numero y se estuvo formando uno agregamos este ultimo.
+				resultado = Double.parseDouble(numeroActual);
+			
+			else if(numeroActual.length() > 0) //Chequeamos que se estuviera formando un numero antes de agregarlo.
 			{
-				numeros.add(Integer.parseInt(numeroActual));
+				numeros.add(Double.parseDouble(numeroActual));
 				numeroActual = "";
 			}
-						
-			if(numeroActual.length() != 0) //Chequeamos que se estuviera formando un numero antes de agregarlo.
-				numeros.add(Integer.parseInt(numeroActual));
 			
-			calcular(); 
-			numeroActual = "";
-
+			if(signos.size() > 0)
+				calcular();
+			
+			System.out.println(resultado);
+			
 		}
-		else if(c.equals("+") || c.equals("-") || c.equals("/") || c.equals("*"))
-		{		
-			if(numeroActual == "" && signos.size() > 0)	//Chequeamos si por ultima vez se estaba formando un numero o si se 
-				signos.set(signos.size() - 1, c);	//agrego un signo, de ser esto ultimo, se lo reemplaza.	
-			else 
-				signos.add(c);
-				
-			if(signos.size() == 1 && numeroActual.length() == 0 && numeros.size() == 0)	//Si se agrego un signo sin que halla ningun
-			{																		//numero se lo elimina.		
-				signos.remove(0);
+		else if(valor.equals("+") || valor.equals("-") || valor.equals("/") || valor.equals("*"))
+		{	
+			if(signos.size() == 0 && numeroActual.length() == 0 && numeros.size() == 0)													
 				return;
+			
+			if(numeroActual == "" && signos.size() > 0) 	//Si esta vacio entonces por ultima vez se agrego un signo
+				signos.set(signos.size() - 1, valor);			//Entonces reemplazamos ese ultimo signo por el nuevo	
+			else
+			{
+				signos.add(valor);
+				
+				if(numeroActual != "")
+					numeros.add(Double.parseDouble(numeroActual));
+				
+				numeroActual = "";	
 			}
-			
-			if(numeroActual != "")
-				numeros.add(Integer.parseInt(numeroActual));
-			
-			numeroActual = "";
 		}
-		else 
-			numeroActual = numeroActual + c;
+		else
+		
+			numeroActual += valor;
+			
+		System.out.println(numeroActual);
 		
 	}
-
 
 	private void borrarUltimoValor() 
 	{
@@ -121,27 +123,27 @@ public class Calculadora
 			signos.remove(0);
 	}	
 	
-	private void sumar(int num1, int num2)
+	private void sumar(double num1, double num2)
 	{
 		resultado = num1 + num2;
 	}
 	
-	private void restar(int num1, int num2)
+	private void restar(double num1, double num2)
 	{
 		resultado = num1 - num2;
 	}
 	
-	private void dividir( int num1, int num2)
+	private void dividir(double num1, double num2)
 	{
 		resultado = num1 / num2;
 	}
 	
-	private void multiplicar (int num1, int num2)
+	private void multiplicar(double num1, double num2)
 	{
 		resultado = num1 * num2;
 	}
 	
-	public int getResultado() 
+	public double getResultado() 
 	{
 		return resultado;
 	}
