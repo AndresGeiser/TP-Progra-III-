@@ -16,7 +16,7 @@ public class Calculadora
 		numeros = new ArrayList<Double>();
 		signos = new ArrayList<String>();
 		resultado = 0;
-		numeroActual = "0";
+		numeroActual = "";
 	}
 	
 	
@@ -30,7 +30,7 @@ public class Calculadora
 									
 		else if(valor.equals("="))//CALCULAR 
 		{
-			if(numeros.size() == 0 && numeroActual.length() == 0)//Si no se agrego ningun numero y no se estuvo formando uno retornamos.
+			if(noHayDatos())//Si no se agrego ningun numero y no se estuvo formando uno retornamos.
 				return;
 			
 			if(numeros.size() == 0 && numeroActual.length() > 0)//Si no se agrego ningun numero y se estuvo formando uno agregamos este ultimo.
@@ -48,12 +48,34 @@ public class Calculadora
 			System.out.println(resultado);
 			
 		}
-		else if(valor.equals("+") || valor.equals("-") || valor.equals("/") || valor.equals("*"))
+		else if(valor.equals("-"))
+		{
+			if(noHayDatos())
+				numeroActual += valor;
+			
+			else if(numeroActual.length() == 0 && signos.size() > 0 && (signos.get(signos.size() -1).equals("*") || signos.get(signos.size() -1).equals("/")))
+				numeroActual += valor;
+			
+			else if (numeroActual.length() == 0 && signos.get(signos.size() -1).equals("+")) 
+				signos.set(signos.size() - 1, valor);
+			
+			else 
+			{
+				signos.add(valor);
+				
+				if(numeroActual != "")
+					numeros.add(Double.parseDouble(numeroActual));
+				
+				numeroActual = "";	
+			}
+			
+		}
+		else if(valor.equals("+") || valor.equals("/") || valor.equals("*"))
 		{	
-			if(signos.size() == 0 && numeroActual.length() == 0 && numeros.size() == 0)													
+			if(noHayDatos())													
 				return;
 			
-			if(numeroActual == "" && signos.size() > 0) 	//Si esta vacio entonces por ultima vez se agrego un signo
+			if(numeroActual.length() == 0 && signos.size() > 0) //Si esta vacio quiere decir que por ultima vez se agrego un signo
 				signos.set(signos.size() - 1, valor);			//Entonces reemplazamos ese ultimo signo por el nuevo	
 			else
 			{
@@ -66,11 +88,18 @@ public class Calculadora
 			}
 		}
 		else
-		
 			numeroActual += valor;
-			
+		
+		System.out.println(signos.size());
 		System.out.println(numeroActual);
 		
+	}
+	
+	public boolean noHayDatos() 
+	{
+		if(numeroActual.length() == 0 && numeros.size() == 0 && signos.size() == 0)
+			return true;
+		return false;
 	}
 
 	private void borrarUltimoValor() 

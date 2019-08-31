@@ -100,7 +100,10 @@ public class GuiCalculadora
 				calculadora.obtenerValor(boton_1.getText());
 				
 				if(resultado.getText().equals("0")) 
+				{
 					resultado.setText(boton_1.getText());
+					seguimiento.setText(boton_1.getText());
+				}
 				else 
 				{
 					resultado.setText(resultado.getText() + boton_1.getText());			
@@ -122,7 +125,10 @@ public class GuiCalculadora
 				calculadora.obtenerValor(boton_2.getText());
 				
 				if(resultado.getText().equals("0")) 
+				{
 					resultado.setText(boton_2.getText());
+					seguimiento.setText(boton_2.getText());
+				}
 				else 
 				{
 					resultado.setText(resultado.getText() + boton_2.getText());			
@@ -143,7 +149,10 @@ public class GuiCalculadora
 				calculadora.obtenerValor(boton_3.getText());
 				
 				if(resultado.getText().equals("0")) 
+				{
 					resultado.setText(boton_3.getText());
+					seguimiento.setText(boton_3.getText());
+				}
 				else 
 				{
 					resultado.setText(resultado.getText() + boton_3.getText());			
@@ -164,7 +173,10 @@ public class GuiCalculadora
 				calculadora.obtenerValor(boton_4.getText());
 				
 				if(resultado.getText().equals("0")) 
+				{
 					resultado.setText(boton_4.getText());
+					seguimiento.setText(boton_4.getText());
+				}
 				else 
 				{
 					resultado.setText(resultado.getText() + boton_4.getText());			
@@ -186,7 +198,10 @@ public class GuiCalculadora
 				calculadora.obtenerValor(boton_5.getText());
 				
 				if(resultado.getText().equals("0")) 
+				{
 					resultado.setText(boton_5.getText());
+					seguimiento.setText(boton_5.getText());
+				}
 				else 
 				{
 					resultado.setText(resultado.getText() + boton_5.getText());			
@@ -208,7 +223,10 @@ public class GuiCalculadora
 				calculadora.obtenerValor(boton_6.getText());
 				
 				if(resultado.getText().equals("0")) 
+				{
 					resultado.setText(boton_6.getText());
+					seguimiento.setText(boton_6.getText());
+				}
 				else 
 				{
 					resultado.setText(resultado.getText() + boton_6.getText());			
@@ -231,7 +249,10 @@ public class GuiCalculadora
 				calculadora.obtenerValor(boton_7.getText());
 				
 				if(resultado.getText().equals("0")) 
+				{
 					resultado.setText(boton_7.getText());
+					seguimiento.setText(boton_7.getText());
+				}
 				else 
 				{
 					resultado.setText(resultado.getText() + boton_7.getText());			
@@ -252,7 +273,10 @@ public class GuiCalculadora
 				calculadora.obtenerValor(boton_8.getText());
 				
 				if(resultado.getText().equals("0")) 
+				{
 					resultado.setText(boton_8.getText());
+					seguimiento.setText(boton_8.getText());
+				}
 				else 
 				{
 					resultado.setText(resultado.getText() + boton_8.getText());			
@@ -274,7 +298,10 @@ public class GuiCalculadora
 				calculadora.obtenerValor(boton_9.getText());
 				
 				if(resultado.getText().equals("0")) 
+				{	
 					resultado.setText(boton_9.getText());
+					seguimiento.setText(boton_9.getText());
+				}
 				else 
 				{
 					resultado.setText(resultado.getText() + boton_9.getText());			
@@ -374,16 +401,18 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_Rest.getText());
 				
-				if(hayPrimerNumero()) 
+				if(resultado.getText().equals("0"))
+					resultado.setText(boton_Rest.getText());
+			
+				
+				else if(resultado.getText().charAt(resultado.getText().length() - 1) == '+') 
+					reemplazarSigno(boton_Rest.getText());
+				
+				else
 				{
-					if(haySigno())
-						reemplazarSigno(boton_Rest.getText());
-					else 
-					{
-						resultado.setText(resultado.getText() + boton_Rest.getText());
-						seguimiento.setText(seguimiento.getText() + boton_Rest.getText());
-					}
-				}	
+					resultado.setText(resultado.getText() + boton_Rest.getText());
+					seguimiento.setText(seguimiento.getText() + boton_Rest.getText());
+				}			
 			}
 		});
 		
@@ -444,7 +473,7 @@ public class GuiCalculadora
 		});
 		
 		
-		seguimiento = new JTextField();
+		seguimiento = new JTextField("0");
 		seguimiento.setEditable(false);
 		seguimiento.setFont(new Font("Tw Cen MT", Font.PLAIN, 15));
 		seguimiento.setBackground(SystemColor.inactiveCaption);
