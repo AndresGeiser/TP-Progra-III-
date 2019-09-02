@@ -1,13 +1,9 @@
 package interfaz;
 
-
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-
 import logica.Calculadora;
-
 import javax.swing.JButton;
 import java.awt.Toolkit;
 import java.awt.Font;
@@ -449,8 +445,8 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_Reset.getText());
 				
-				resultado.setText("");
-				seguimiento.setText("");
+				resultado.setText("0");
+				seguimiento.setText("0");
 			}
 		});
 		
@@ -467,7 +463,10 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_Borrar.getText());
 				
-				resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1));
+				if(resultado.getText().length() == 1)
+					resultado.setText("0");
+				else
+					resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1));
 				
 			}
 		});
@@ -499,9 +498,9 @@ public class GuiCalculadora
 	
 	public boolean hayPrimerNumero() 
 	{
-		if(resultado.getText().length() > 0)
-			return true;
-		return false;
+		if(resultado.getText().equals("0"))
+			return false;
+		return true;
 	}
 	
 	public boolean haySigno() 
@@ -521,7 +520,6 @@ public class GuiCalculadora
 	{
 		if(numero % 1 == 0) 
 			return false;
-		
 		return true;	
 	}
 	
