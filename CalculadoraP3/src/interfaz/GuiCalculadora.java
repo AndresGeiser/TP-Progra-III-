@@ -401,7 +401,7 @@ public class GuiCalculadora
 					resultado.setText(boton_Rest.getText());
 			
 				
-				else if(resultado.getText().charAt(resultado.getText().length() - 1) == '+' || haySigno()) 
+				else if(resultado.getText().charAt(resultado.getText().length() - 1) == '+' || resultado.getText().charAt(resultado.getText().length() - 1) == '-' ) 
 					reemplazarSigno(boton_Rest.getText());
 				
 				else
@@ -481,18 +481,28 @@ public class GuiCalculadora
 		seguimiento.setColumns(10);
 		
 		JButton punto = new JButton(".");
-		punto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				calculadora.obtenerValor(punto.getText());
-				
-				resultado.setText(resultado.getText() + punto.getText());
-				seguimiento.setText(seguimiento.getText() + punto.getText());
-			}
-		});
 		punto.setFont(new Font("Arial", Font.BOLD, 20));
 		punto.setBounds(91, 315, 66, 53);
 		frmCalculadora.getContentPane().add(punto);
+		
+		punto.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+					
+				if(!haySigno()) //No permite que el numero contenga mas de un numero seguido
+				{	
+					calculadora.obtenerValor(punto.getText());				
+
+					resultado.setText(resultado.getText() + punto.getText());
+					seguimiento.setText(seguimiento.getText() + punto.getText());	
+				}
+
+			}
+			
+		});
+		
+		
 	
 	}
 	
@@ -510,7 +520,7 @@ public class GuiCalculadora
 		
 		char caracter = resultado.getText().charAt(resultado.getText().length() - 1);
 		
-		if(caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/') 
+		if(caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/' || caracter == '.') 
 			return true;
 		
 		return false;
