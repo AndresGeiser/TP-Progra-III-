@@ -66,16 +66,16 @@ public class Calculadora
 				
 				else if (numeroActual.length() == 0 && signos.get(signos.size() -1).equals("+")) 
 					signos.set(signos.size() - 1, valor);
-			}
-			else 
-			{
+			
+				
 				signos.add(valor);
 				
 				if(numeroActual != "")
 					numeros.add(Double.parseDouble(numeroActual));
 				
 				numeroActual = "";	
-			}
+		
+			}	
 			
 		}
 		else if(valor.equals("+") || valor.equals("/") || valor.equals("*"))
@@ -162,12 +162,6 @@ public class Calculadora
 		numeroActual = "";
 		resultado = 0;
 		
-	/*	while(numeros.size() != 0)
-			numeros.remove(0);
-		
-		while(signos.size() != 0)
-			signos.remove(0);
-	*/
 		numeros.clear();
 		signos.clear();
 			
