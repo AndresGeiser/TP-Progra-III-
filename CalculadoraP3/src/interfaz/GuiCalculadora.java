@@ -242,7 +242,7 @@ public class GuiCalculadora
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				calculadora.obtenerValor(boton_7.getText());
+				calculadora.obtenerValor( boton_7.getText());
 				
 				if(resultado.getText().equals("0")) 
 				{
@@ -398,8 +398,10 @@ public class GuiCalculadora
 				calculadora.obtenerValor(boton_Rest.getText());
 				
 				if(resultado.getText().equals("0"))
+				{
 					resultado.setText(boton_Rest.getText());
-			
+					seguimiento.setText(boton_Rest.getText());
+				}
 				
 				else if(resultado.getText().charAt(resultado.getText().length() - 1) == '+' || resultado.getText().charAt(resultado.getText().length() - 1) == '-' ) 
 					reemplazarSigno(boton_Rest.getText());
@@ -465,8 +467,13 @@ public class GuiCalculadora
 				
 				if(resultado.getText().length() == 1)
 					resultado.setText("0");
-				else
+			
+				else if (resultado.getText().length() > 0)
+				{
 					resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1));
+				
+					seguimiento.setText(seguimiento.getText().substring(0, seguimiento.getText().length() - 1));
+				}
 				
 			}
 		});

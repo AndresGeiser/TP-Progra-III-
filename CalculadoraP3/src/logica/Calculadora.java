@@ -104,6 +104,7 @@ public class Calculadora
 			numeroActual += valor;
 		
 		
+		
 	}
 	
 	public boolean noHayDatos() 
@@ -129,12 +130,15 @@ public class Calculadora
 		}
 		else
 			numeroActual = numeroActual.substring(0, numeroActual.length() - 1); 		//Borramos el ultimo caracter del numero en "edicion".
+		
+		System.out.println(numeroActual);
 	}
 	
 	private void calcular() 
 	{	
 		resultado = numeros.get(0);
 		numeros.remove(0);
+		
 		
 		while(numeros.size() != 0) 
 		{
@@ -152,6 +156,7 @@ public class Calculadora
 			
 			numeros.remove(0);
 			signos.remove(0);
+			
 		}
 	}
 	
@@ -211,6 +216,12 @@ public class Calculadora
 	public double getResultado() 
 	{
 		return resultado;
+	}
+
+
+	public String getNumeroActual() 
+	{
+		return numeroActual;
 	}
 	
 }	
