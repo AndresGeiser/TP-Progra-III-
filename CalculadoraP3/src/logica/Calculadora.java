@@ -35,12 +35,16 @@ public class Calculadora
 			
 			if(numeros.size() == 0 && numeroActual.length() > 0)//Si no se agrego ningun numero y se estuvo formando uno agregamos este ultimo.
 			{	
-				resultado = Double.parseDouble(numeroActual);
+				if(!numeroActual.equals("-"))
+					resultado = Double.parseDouble(numeroActual);
+				
 				numeroActual = "";
 			}
 			else if(numeroActual.length() > 0) //Chequeamos que se estuviera formando un numero antes de agregarlo.
 			{
-				numeros.add(Double.parseDouble(numeroActual));
+				if(!numeroActual.equals("-"))
+					numeros.add(Double.parseDouble(numeroActual));
+				
 				numeroActual = "";
 			}
 			
@@ -48,36 +52,37 @@ public class Calculadora
 				calcular();
 			
 		}
+		
 		else if(valor.equals("-"))
 		{
 			if(noHayDatos())
 				numeroActual += valor;
 			
-			if(resultado != 0) 
+			else
 			{
-				numeros.add(resultado);
-				resultado = 0 ;
+				if(resultado != 0) 
+				{
+					numeros.add(resultado);
+					resultado = 0 ;
+				}
+				
+				if(signos.size() > 0) 
+				{
+					if(numeroActual.length() == 0 && (signos.get(signos.size() -1).equals("*") || signos.get(signos.size() -1).equals("/")))
+						numeroActual += valor;
+					
+					else if (numeroActual.length() == 0 && signos.get(signos.size() -1).equals("+")) 
+						reemplazarUltimoSigno(valor);
+				
+					else
+						guardarDatos(valor);
+				}
+				else 
+					guardarDatos(valor);
 			}
 			
-			if(signos.size() > 0) 
-			{
-				if(numeroActual.length() == 0 && (signos.get(signos.size() -1).equals("*") || signos.get(signos.size() -1).equals("/")))
-					numeroActual += valor;
-				
-				else if (numeroActual.length() == 0 && signos.get(signos.size() -1).equals("+")) 
-					signos.set(signos.size() - 1, valor);
-			
-				
-				signos.add(valor);
-				
-				if(numeroActual != "")
-					numeros.add(Double.parseDouble(numeroActual));
-				
-				numeroActual = "";	
-		
-			}	
-			
 		}
+		
 		else if(valor.equals("+") || valor.equals("/") || valor.equals("*"))
 		{	
 			if(noHayDatos())													
@@ -90,21 +95,14 @@ public class Calculadora
 			}
 			
 			if(numeroActual.length() == 0 && signos.size() > 0) //Si esta vacio quiere decir que por ultima vez se agrego un signo
-				signos.set(signos.size() - 1, valor);			//Entonces reemplazamos ese ultimo signo por el nuevo	
+				reemplazarUltimoSigno(valor);					//Entonces reemplazamos ese ultimo signo por el nuevo	
 			else
-			{
-				signos.add(valor);
-				
-				if(numeroActual != "")
-					numeros.add(Double.parseDouble(numeroActual));
-				
-				numeroActual = "";	
-			}
+				guardarDatos(valor);
 		}
+		
 		else
-		{
 			numeroActual += valor;
-		}
+		
 		
 	}
 	
@@ -130,7 +128,7 @@ public class Calculadora
 			}
 		}
 		else
-			numeroActual = numeroActual.substring(0, numeroActual.length() - 1); 			//Borramos el ultimo caracter del numero en "edicion".
+			numeroActual = numeroActual.substring(0, numeroActual.length() - 1); 		//Borramos el ultimo caracter del numero en "edicion".
 	}
 	
 	private void calcular() 
@@ -162,9 +160,11 @@ public class Calculadora
 		numeroActual = "";
 		resultado = 0;
 		
-		numeros.clear();
-		signos.clear();
-			
+		while(numeros.size() != 0)
+			numeros.remove(0);
+		
+		while(signos.size() != 0)
+			signos.remove(0);
 	}	
 	
 	private void sumar(double num1, double num2)
@@ -187,11 +187,30 @@ public class Calculadora
 		resultado = num1 * num2;
 	}
 	
+	private void reemplazarUltimoSigno(String valor) 
+	{
+		signos.set(signos.size() - 1, valor);
+	}
+	
+	private void guardarDatos(String valor) 
+	{
+		if(numeroActual.equals("-"))
+		{
+			numeroActual = "";
+			return;
+		}
+		
+		signos.add(valor);
+		
+		if(numeroActual != "")
+			numeros.add(Double.parseDouble(numeroActual));
+		
+		numeroActual = "";
+	}
+	
 	public double getResultado() 
 	{
 		return resultado;
 	}
 	
-	
-}
-
+}	

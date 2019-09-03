@@ -401,7 +401,7 @@ public class GuiCalculadora
 					resultado.setText(boton_Rest.getText());
 			
 				
-				else if(resultado.getText().charAt(resultado.getText().length() - 1) == '+') 
+				else if(resultado.getText().charAt(resultado.getText().length() - 1) == '+' || haySigno()) 
 					reemplazarSigno(boton_Rest.getText());
 				
 				else
@@ -528,4 +528,5 @@ public class GuiCalculadora
 		resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1) + signo);
 		seguimiento.setText(seguimiento.getText().substring(0, seguimiento.getText().length() - 1) + signo);
 	}
-}
+	
+}	
