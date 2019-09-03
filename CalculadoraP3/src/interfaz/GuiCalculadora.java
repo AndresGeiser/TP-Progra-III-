@@ -75,11 +75,16 @@ public class GuiCalculadora
 			public void actionPerformed(ActionEvent e)
 			{
 				calculadora.obtenerValor(boton_0.getText());
-				
-				if(!resultado.getText().equals("0")) 
+				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
+					resultado.setText(boton_0.getText());
+				else
 				{
-					resultado.setText(resultado.getText() + boton_0.getText());
-					seguimiento.setText(seguimiento.getText() + "0");
+					if(!resultado.getText().equals("0")) 
+					{
+						resultado.setText(resultado.getText() + boton_0.getText());
+						seguimiento.setText(seguimiento.getText() + "0");
+					}
+			
 				}
 			}
 		});

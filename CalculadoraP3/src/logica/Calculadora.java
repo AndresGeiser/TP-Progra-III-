@@ -47,7 +47,7 @@ public class Calculadora
 				
 				numeroActual = "";
 			}
-			
+		
 			if(signos.size() > 0)
 				calcular();
 			
@@ -85,6 +85,7 @@ public class Calculadora
 		
 		else if(valor.equals("+") || valor.equals("/") || valor.equals("*"))
 		{	
+			
 			if(noHayDatos())													
 				return;
 			
@@ -98,11 +99,16 @@ public class Calculadora
 				reemplazarUltimoSigno(valor);					//Entonces reemplazamos ese ultimo signo por el nuevo	
 			else
 				guardarDatos(valor);
+			
 		}
 		
 		else
+		{
+			if(resultado != 0)
+				resultado = 0;
+			
 			numeroActual += valor;
-		
+		}
 		
 		
 	}
