@@ -95,16 +95,11 @@ public class GuiCalculadora
 			{				
 				calculadora.obtenerValor(boton_1.getText());
 				
-				if(resultado.getText().equals("0")) 
-				{
+				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
 					resultado.setText(boton_1.getText());
-					seguimiento.setText(boton_1.getText());
-				}
-				else 
-				{
-					resultado.setText(resultado.getText() + boton_1.getText());			
-					seguimiento.setText(seguimiento.getText() + boton_1.getText());
-				}
+				else
+					agregarNumero(boton_1.getText());
+					
 				
 			}
 		});
@@ -120,16 +115,11 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_2.getText());
 				
-				if(resultado.getText().equals("0")) 
-				{
+				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
 					resultado.setText(boton_2.getText());
-					seguimiento.setText(boton_2.getText());
-				}
-				else 
-				{
-					resultado.setText(resultado.getText() + boton_2.getText());			
-					seguimiento.setText(seguimiento.getText() + boton_2.getText());
-				}
+				else
+					agregarNumero(boton_2.getText());
+				
 			}
 		});
 		
@@ -144,16 +134,10 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_3.getText());
 				
-				if(resultado.getText().equals("0")) 
-				{
+				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
 					resultado.setText(boton_3.getText());
-					seguimiento.setText(boton_3.getText());
-				}
-				else 
-				{
-					resultado.setText(resultado.getText() + boton_3.getText());			
-					seguimiento.setText(seguimiento.getText() + boton_3.getText());
-				}
+				else
+					agregarNumero(boton_3.getText());
 			}
 		});
 		
@@ -168,16 +152,10 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_4.getText());
 				
-				if(resultado.getText().equals("0")) 
-				{
+				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
 					resultado.setText(boton_4.getText());
-					seguimiento.setText(boton_4.getText());
-				}
-				else 
-				{
-					resultado.setText(resultado.getText() + boton_4.getText());			
-					seguimiento.setText(seguimiento.getText() + boton_4.getText());
-				}
+				else
+					agregarNumero(boton_4.getText());
 
 			}
 		});
@@ -193,16 +171,10 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_5.getText());
 				
-				if(resultado.getText().equals("0")) 
-				{
+				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
 					resultado.setText(boton_5.getText());
-					seguimiento.setText(boton_5.getText());
-				}
-				else 
-				{
-					resultado.setText(resultado.getText() + boton_5.getText());			
-					seguimiento.setText(seguimiento.getText() + boton_5.getText());
-				}
+				else
+					agregarNumero(boton_5.getText());
 
 			}
 		});
@@ -218,16 +190,10 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_6.getText());
 				
-				if(resultado.getText().equals("0")) 
-				{
+				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
 					resultado.setText(boton_6.getText());
-					seguimiento.setText(boton_6.getText());
-				}
-				else 
-				{
-					resultado.setText(resultado.getText() + boton_6.getText());			
-					seguimiento.setText(seguimiento.getText() + boton_6.getText());
-				}
+				else
+					agregarNumero(boton_6.getText());
 
 			}
 		});
@@ -244,16 +210,10 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor( boton_7.getText());
 				
-				if(resultado.getText().equals("0")) 
-				{
+				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
 					resultado.setText(boton_7.getText());
-					seguimiento.setText(boton_7.getText());
-				}
-				else 
-				{
-					resultado.setText(resultado.getText() + boton_7.getText());			
-					seguimiento.setText(seguimiento.getText() + boton_7.getText());
-				}
+				else
+					agregarNumero(boton_7.getText());
 			}
 		});
 		
@@ -268,16 +228,10 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_8.getText());
 				
-				if(resultado.getText().equals("0")) 
-				{
+				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
 					resultado.setText(boton_8.getText());
-					seguimiento.setText(boton_8.getText());
-				}
-				else 
-				{
-					resultado.setText(resultado.getText() + boton_8.getText());			
-					seguimiento.setText(seguimiento.getText() + boton_8.getText());
-				}
+				else
+					agregarNumero(boton_8.getText());
 
 			}
 		});
@@ -293,16 +247,10 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_9.getText());
 				
-				if(resultado.getText().equals("0")) 
-				{	
+				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
 					resultado.setText(boton_9.getText());
-					seguimiento.setText(boton_9.getText());
-				}
-				else 
-				{
-					resultado.setText(resultado.getText() + boton_9.getText());			
-					seguimiento.setText(seguimiento.getText() + boton_9.getText());
-				}
+				else
+					agregarNumero(boton_9.getText());
 			}
 		});		
 		
@@ -432,6 +380,8 @@ public class GuiCalculadora
 				}
 				else
 					resultado.setText(String.valueOf(calculadora.getResultado()));
+				
+				seguimiento.setText(seguimiento.getText() +  "=");
 			}
 		});	
 		
@@ -465,16 +415,18 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_Borrar.getText());
 				
-				if(resultado.getText().length() == 1)
-					resultado.setText("0");
-			
-				else if (resultado.getText().length() > 0)
+				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) != '=')
 				{
-					resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1));
+					if(resultado.getText().length() == 1)
+						resultado.setText("0");
 				
-					seguimiento.setText(seguimiento.getText().substring(0, seguimiento.getText().length() - 1));
+					else if (resultado.getText().length() > 0)
+					{
+						resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1));
+					
+						seguimiento.setText(seguimiento.getText().substring(0, seguimiento.getText().length() - 1));
+					}
 				}
-				
 			}
 		});
 		
@@ -544,6 +496,20 @@ public class GuiCalculadora
 	{
 		resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1) + signo);
 		seguimiento.setText(seguimiento.getText().substring(0, seguimiento.getText().length() - 1) + signo);
+	}
+	
+	public void agregarNumero(String numero)
+	{
+		if(resultado.getText().equals("0")) 
+		{	
+			resultado.setText(numero);
+			seguimiento.setText(numero);
+		}
+		else 
+		{
+			resultado.setText(resultado.getText() + numero);			
+			seguimiento.setText(seguimiento.getText() + numero);
+		}
 	}
 	
 }	
