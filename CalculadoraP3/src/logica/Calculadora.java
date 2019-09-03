@@ -162,11 +162,15 @@ public class Calculadora
 		numeroActual = "";
 		resultado = 0;
 		
-		while(numeros.size() != 0)
+	/*	while(numeros.size() != 0)
 			numeros.remove(0);
 		
 		while(signos.size() != 0)
 			signos.remove(0);
+	*/
+		numeros.clear();
+		signos.clear();
+			
 	}	
 	
 	private void sumar(double num1, double num2)
