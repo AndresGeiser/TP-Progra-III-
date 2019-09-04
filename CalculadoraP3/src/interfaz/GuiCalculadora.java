@@ -358,7 +358,7 @@ public class GuiCalculadora
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) != '=')
-					if(!haySigno()) //No permite que el numero contenga mas de un numero seguido
+					if(!haySigno()) //No permite que el numero contenga mas de un signo seguido
 					{	
 						calculadora.obtenerValor(boton_Punto.getText());				
 
