@@ -212,16 +212,7 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_Mult.getText());
 				
-				if(hayPrimerNumero()) 
-				{
-					if(haySigno()) 
-						reemplazarSigno(boton_Mult.getText());
-					else 
-					{
-						resultado.setText(resultado.getText() + boton_Mult.getText());
-						seguimiento.setText(seguimiento.getText() + boton_Mult.getText());	
-					}
-				}
+				agregarOperador(boton_Mult.getText());
 			}
 		});	
 		
@@ -232,17 +223,7 @@ public class GuiCalculadora
 			{						
 				calculadora.obtenerValor(boton_Sum.getText());
 			
-				if(hayPrimerNumero()) 
-				{
-					if(haySigno())
-						reemplazarSigno(boton_Sum.getText());
-					else
-					{	
-						resultado.setText(resultado.getText() + boton_Sum.getText());
-						seguimiento.setText(seguimiento.getText() + boton_Sum.getText());
-					}
-				}
-				
+				agregarOperador(boton_Sum.getText());	
 			}
 		});
 				
@@ -253,16 +234,7 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_Div.getText());
 				
-				if(hayPrimerNumero()) 
-				{
-					if(haySigno())
-						reemplazarSigno(boton_Div.getText());
-					else 
-					{
-						resultado.setText(resultado.getText() + boton_Div.getText());
-						seguimiento.setText(seguimiento.getText() + boton_Div.getText());	
-					}
-				}
+				agregarOperador(boton_Div.getText());
 			}
 		});
 		
@@ -295,26 +267,16 @@ public class GuiCalculadora
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				try 
+				calculadora.obtenerValor(boton_Igual.getText());
+				
+				if(!esDecimal(calculadora.getResultado())) 
 				{
-					calculadora.obtenerValor(boton_Igual.getText());
-					
-					if(!esDecimal(calculadora.getResultado())) 
-					{
-						resultado.setText(String.valueOf((int)calculadora.getResultado()));
-					}
-					else
-						resultado.setText(String.valueOf(calculadora.getResultado()));
-					
-					seguimiento.setText(seguimiento.getText() +  "=");
-				} 
-				catch (Exception e) 
-				{
-					resultado.setText("Error de sintaxis");
+					resultado.setText(String.valueOf((int)calculadora.getResultado()));
 				}
+				else
+					resultado.setText(String.valueOf(calculadora.getResultado()));
 				
-				
-				
+				seguimiento.setText(seguimiento.getText() +  "=");
 			}
 		});	
 		
@@ -587,6 +549,20 @@ public class GuiCalculadora
 		{
 			resultado.setText(resultado.getText() + numero);			
 			seguimiento.setText(seguimiento.getText() + numero);
+		}
+	}
+	
+	private void agregarOperador(String operador) 
+	{
+		if(hayPrimerNumero()) 
+		{
+			if(haySigno())
+				reemplazarSigno(operador);
+			else 
+			{
+				resultado.setText(resultado.getText() + operador);
+				seguimiento.setText(seguimiento.getText() + operador);	
+			}
 		}
 	}
 	

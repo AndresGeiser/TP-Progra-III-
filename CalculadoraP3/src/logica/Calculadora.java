@@ -232,7 +232,6 @@ public class Calculadora
 	
 	private void guardarDatos(String valor) 
 	{
-		
 		signos.add(valor);
 		
 		if(!actualEstaVacio())
@@ -249,6 +248,5 @@ public class Calculadora
 	public String getNumeroActual() 
 	{
 		return numeroActual;
-	}
-	
+	}	
 }	
