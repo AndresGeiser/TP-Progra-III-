@@ -44,6 +44,18 @@ public class CalculadoraTest {
 	}
 	
 	@Test
+	public void restaNegativos()
+	{
+		Calculadora calculadora = new Calculadora();
+		calculadora.obtenerValor("-5");
+		calculadora.obtenerValor("+");
+		calculadora.obtenerValor("-3");
+		calculadora.obtenerValor("=");
+		
+		assertTrue(-8 == calculadora.getResultado());
+	}
+	
+	@Test
 	public void multiplicar()
 	{
 		Calculadora calculadora = new Calculadora();
@@ -68,4 +80,17 @@ public class CalculadoraTest {
 		
 		assertTrue(8 == calculadora.getResultado());
 	}
+	 
+	@Test
+	public void borrarElementos()
+	{
+		Calculadora calculadora = new Calculadora();
+		
+		calculadora.obtenerValor("255");
+		calculadora.obtenerValor("<");
+		
+		assertTrue(25  == Double.parseDouble(calculadora.getNumeroActual()));
+	}
+	
+
 }
