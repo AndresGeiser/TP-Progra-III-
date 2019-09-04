@@ -27,7 +27,45 @@ public class CalculadoraTest {
 		calculadora.obtenerValor("2");
 		calculadora.obtenerValor("=");
 
-		assertEquals("35.0",Double.toString(calculadora.getResultado()));
+		assertTrue(35.0 == calculadora.getResultado());
 	}
 
+	@Test
+	public void restar()
+	{
+		Calculadora calculadora = new Calculadora();
+		
+		calculadora.obtenerValor("3");
+		calculadora.obtenerValor("-");
+		calculadora.obtenerValor("2");
+		calculadora.obtenerValor("=");
+		
+		assertTrue(1 == calculadora.getResultado());
+	}
+	
+	@Test
+	public void multiplicar()
+	{
+		Calculadora calculadora = new Calculadora();
+		
+		calculadora.obtenerValor("2");
+		calculadora.obtenerValor("*");
+		calculadora.obtenerValor("5");
+		calculadora.obtenerValor("=");
+		
+		assertTrue(10 == calculadora.getResultado());
+	}
+	
+	@Test
+	public void dividir()
+	{
+		Calculadora calculadora = new Calculadora();
+		
+		calculadora.obtenerValor("16");
+		calculadora.obtenerValor("/");
+		calculadora.obtenerValor("2");
+		calculadora.obtenerValor("=");
+		
+		assertTrue(8 == calculadora.getResultado());
+	}
 }

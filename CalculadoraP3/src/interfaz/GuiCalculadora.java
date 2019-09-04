@@ -76,7 +76,7 @@ public class GuiCalculadora
 		JButton boton_Div = inicializarBotonDiv();
 		JButton boton_Sum = inicializarBotonSuma();
 		JButton boton_Rest = inicializarBotonRest();
-		JButton punto = inicializarBotonPunto();
+		JButton boton_Punto = inicializarBotonPunto();
 
 
 		JButton boton_Igual = inicializarBotonIgual();
@@ -377,17 +377,17 @@ public class GuiCalculadora
 		});
 		
 		
-		punto.addActionListener(new ActionListener()
+		boton_Punto.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
 					
 				if(!haySigno()) //No permite que el numero contenga mas de un numero seguido
 				{	
-					calculadora.obtenerValor(punto.getText());				
+					calculadora.obtenerValor(boton_Punto.getText());				
 
-					resultado.setText(resultado.getText() + punto.getText());
-					seguimiento.setText(seguimiento.getText() + punto.getText());	
+					resultado.setText(resultado.getText() + boton_Punto.getText());
+					seguimiento.setText(seguimiento.getText() + boton_Punto.getText());	
 				}
 
 			}
