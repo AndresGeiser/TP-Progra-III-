@@ -33,22 +33,21 @@ public class Calculadora
 			if(noHayDatos())//Si no se agrego ningun numero y no se estuvo formando uno retornamos.
 				return;
 			
-			if(numeros.size() == 0 && numeroActual.length() > 0)//Si no se agrego ningun numero y se estuvo formando uno agregamos este ultimo.
+			if(numeros.size() == 0 && !actualEstaVacio() )//Si no se agrego ningun numero y se estuvo formando uno agregamos este ultimo.
 			{	
-				if(!numeroActual.equals("-"))
+				if(!actualEsResta())
 					resultado = Double.parseDouble(numeroActual);
 				
 				numeroActual = "";
 			}
-			else if(numeroActual.length() > 0) //Chequeamos que se estuviera formando un numero antes de agregarlo.
+			
+			if(!actualEstaVacio() && !actualEsResta()) //Chequeamos que se estuviera formando un numero antes de agregarlo.
 			{
-				if(!numeroActual.equals("-"))
-					numeros.add(Double.parseDouble(numeroActual));
-				
+				numeros.add(Double.parseDouble(numeroActual));
 				numeroActual = "";
 			}
 		
-			if(signos.size() > 0)
+			if(hayAlgunSigno())
 				calcular();
 			
 		}
@@ -66,12 +65,12 @@ public class Calculadora
 					resultado = 0 ;
 				}
 				
-				if(signos.size() > 0) 
+				if(hayAlgunSigno()) 
 				{
-					if(numeroActual.length() == 0 && (signos.get(signos.size() -1).equals("*") || signos.get(signos.size() -1).equals("/")))
+					if(actualEstaVacio() && ultimoSignoEs("*") || ultimoSignoEs("/")) //Permite operar con las operaciones entre negativos
 						numeroActual += valor;
 					
-					else if (numeroActual.length() == 0 && signos.get(signos.size() -1).equals("+")) 
+					if (actualEstaVacio() && ultimoSignoEs("+"))                      //Permite cambiar el signo a un numero positivo
 						reemplazarUltimoSigno(valor);
 				
 					else
@@ -95,8 +94,8 @@ public class Calculadora
 				resultado = 0 ;
 			}
 			
-			if(numeroActual.length() == 0 && signos.size() > 0) //Si esta vacio quiere decir que por ultima vez se agrego un signo
-				reemplazarUltimoSigno(valor);					//Entonces reemplazamos ese ultimo signo por el nuevo	
+			if(actualEstaVacio() && hayAlgunSigno()) //Si esta vacio quiere decir que por ultima vez se agrego un signo
+				reemplazarUltimoSigno(valor);			//Entonces reemplazamos ese ultimo signo por el nuevo	
 			else
 				guardarDatos(valor);
 			
@@ -112,10 +111,35 @@ public class Calculadora
 		
 		
 	}
+
+
+	private boolean actualEsResta() {
+		return numeroActual.equals("-");
+	}
+
+
+	private boolean hayAlgunSigno() {
+		return cantSignos() > 0;
+	}
+
+	private int cantSignos() {
+		return signos.size();
+	}
+
+	private boolean ultimoSignoEs(String signo)
+	{
+		return signos.get(cantSignos() -1).equals(signo);
+	}
+	
+	
+	private boolean actualEstaVacio()
+	{
+		return numeroActual.equals("");
+	}
 	
 	public boolean noHayDatos() 
 	{
-		if(numeroActual.length() == 0 && numeros.size() == 0 && signos.size() == 0 && resultado == 0)
+		if(actualEstaVacio() && numeros.size() == 0 && cantSignos() == 0 && resultado == 0)
 			return true;
 		return false;
 	}
@@ -125,11 +149,11 @@ public class Calculadora
 		if(noHayDatos())
 			return;
 		
-		if(numeroActual.length() == 0)//Si no estaba formando un numero.
+		if(actualEstaVacio())//Si no estaba formando un numero.
 		{
-			if(signos.size() > 0) 
+			if(hayAlgunSigno()) 
 			{
-				signos.remove(signos.size() - 1);								//Pasamos a borrar el ultimo signo ingresado
+				signos.remove(cantSignos() - 1);								//Pasamos a borrar el ultimo signo ingresado
 				numeroActual = String.valueOf(numeros.get(numeros.size() -1));	//y ponemos en "edicion" al ultimo numero ingresado.			
 				numeros.remove(numeros.size() - 1);								//Sacamos ese ultimo numero del array.
 			}
@@ -174,7 +198,7 @@ public class Calculadora
 		while(numeros.size() != 0)
 			numeros.remove(0);
 		
-		while(signos.size() != 0)
+		while(cantSignos() != 0)
 			signos.remove(0);
 	}	
 	
@@ -200,12 +224,12 @@ public class Calculadora
 	
 	private void reemplazarUltimoSigno(String valor) 
 	{
-		signos.set(signos.size() - 1, valor);
+		signos.set(cantSignos() - 1, valor);
 	}
 	
 	private void guardarDatos(String valor) 
 	{
-		if(numeroActual.equals("-"))
+		if(actualEsResta())
 		{
 			numeroActual = "";
 			return;
@@ -213,7 +237,7 @@ public class Calculadora
 		
 		signos.add(valor);
 		
-		if(numeroActual != "")
+		if(!actualEstaVacio())
 			numeros.add(Double.parseDouble(numeroActual));
 		
 		numeroActual = "";
@@ -223,7 +247,6 @@ public class Calculadora
 	{
 		return resultado;
 	}
-
 
 	public String getNumeroActual() 
 	{
