@@ -92,6 +92,7 @@ public class GuiCalculadora
 			public void actionPerformed(ActionEvent e)
 			{
 				calculadora.obtenerValor(boton_0.getText());
+				
 				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
 					resultado.setText(boton_0.getText());
 				else
@@ -101,7 +102,6 @@ public class GuiCalculadora
 						resultado.setText(resultado.getText() + boton_0.getText());
 						seguimiento.setText(seguimiento.getText() + "0");
 					}
-			
 				}
 			}
 		});
@@ -113,12 +113,7 @@ public class GuiCalculadora
 			{				
 				calculadora.obtenerValor(boton_1.getText());
 				
-				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
-					resultado.setText(boton_1.getText());
-				else
-					agregarNumero(boton_1.getText());
-					
-				
+				agregarNumero(boton_1.getText());
 			}
 		});
 		
@@ -128,12 +123,8 @@ public class GuiCalculadora
 			public void actionPerformed(ActionEvent e)
 			{
 				calculadora.obtenerValor(boton_2.getText());
-				
-				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
-					resultado.setText(boton_2.getText());
-				else
-					agregarNumero(boton_2.getText());
-				
+		
+				agregarNumero(boton_2.getText());	
 			}
 		});
 		
@@ -144,10 +135,7 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_3.getText());
 				
-				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
-					resultado.setText(boton_3.getText());
-				else
-					agregarNumero(boton_3.getText());
+				agregarNumero(boton_3.getText());
 			}
 		});
 		
@@ -158,11 +146,7 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_4.getText());
 				
-				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
-					resultado.setText(boton_4.getText());
-				else
-					agregarNumero(boton_4.getText());
-
+				agregarNumero(boton_4.getText());
 			}
 		});
 		
@@ -172,12 +156,8 @@ public class GuiCalculadora
 			public void actionPerformed(ActionEvent e)
 			{
 				calculadora.obtenerValor(boton_5.getText());
-				
-				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
-					resultado.setText(boton_5.getText());
-				else
-					agregarNumero(boton_5.getText());
-
+	
+				agregarNumero(boton_5.getText());
 			}
 		});
 		
@@ -187,12 +167,8 @@ public class GuiCalculadora
 			public void actionPerformed(ActionEvent e)
 			{
 				calculadora.obtenerValor(boton_6.getText());
-				
-				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
-					resultado.setText(boton_6.getText());
-				else
-					agregarNumero(boton_6.getText());
-
+			
+				agregarNumero(boton_6.getText());
 			}
 		});
 		
@@ -202,11 +178,8 @@ public class GuiCalculadora
 			public void actionPerformed(ActionEvent e)
 			{
 				calculadora.obtenerValor( boton_7.getText());
-				
-				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
-					resultado.setText(boton_7.getText());
-				else
-					agregarNumero(boton_7.getText());
+			
+				agregarNumero(boton_7.getText());
 			}
 		});
 		
@@ -217,11 +190,7 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_8.getText());
 				
-				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
-					resultado.setText(boton_8.getText());
-				else
-					agregarNumero(boton_8.getText());
-
+				agregarNumero(boton_8.getText());
 			}
 		});
 		
@@ -232,10 +201,7 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_9.getText());
 				
-				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')
-					resultado.setText(boton_9.getText());
-				else
-					agregarNumero(boton_9.getText());
+				agregarNumero(boton_9.getText());
 			}
 		});		
 		
@@ -329,16 +295,26 @@ public class GuiCalculadora
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				calculadora.obtenerValor(boton_Igual.getText());
-				
-				if(!esDecimal(calculadora.getResultado())) 
+				try 
 				{
-					resultado.setText(String.valueOf((int)calculadora.getResultado()));
+					calculadora.obtenerValor(boton_Igual.getText());
+					
+					if(!esDecimal(calculadora.getResultado())) 
+					{
+						resultado.setText(String.valueOf((int)calculadora.getResultado()));
+					}
+					else
+						resultado.setText(String.valueOf(calculadora.getResultado()));
+					
+					seguimiento.setText(seguimiento.getText() +  "=");
+				} 
+				catch (Exception e) 
+				{
+					resultado.setText("Error de sintaxis");
 				}
-				else
-					resultado.setText(String.valueOf(calculadora.getResultado()));
 				
-				seguimiento.setText(seguimiento.getText() +  "=");
+				
+				
 			}
 		});	
 		
@@ -381,21 +357,16 @@ public class GuiCalculadora
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-					
-				if(!haySigno()) //No permite que el numero contenga mas de un numero seguido
-				{	
-					calculadora.obtenerValor(boton_Punto.getText());				
+				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) != '=')
+					if(!haySigno()) //No permite que el numero contenga mas de un numero seguido
+					{	
+						calculadora.obtenerValor(boton_Punto.getText());				
 
-					resultado.setText(resultado.getText() + boton_Punto.getText());
-					seguimiento.setText(seguimiento.getText() + boton_Punto.getText());	
-				}
-
+						resultado.setText(resultado.getText() + boton_Punto.getText());
+						seguimiento.setText(seguimiento.getText() + boton_Punto.getText());	
+					}
 			}
-			
 		});
-		
-		
-	
 	}
 
 	//Metodos de inicializacion y auxiliares
@@ -586,17 +557,13 @@ public class GuiCalculadora
 		
 		char caracter = resultado.getText().charAt(resultado.getText().length() - 1);
 		
-		if(caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/' || caracter == '.') 
-			return true;
-		
-		return false;
+		return caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/' || caracter == '.';	
 	}
 	
 	private boolean esDecimal(double numero) 
 	{
-		if(numero % 1 == 0) 
-			return false;
-		return true;	
+		return !(numero % 1 == 0);
+				
 	}
 	
 	private void reemplazarSigno(String signo) 
@@ -607,11 +574,15 @@ public class GuiCalculadora
 	
 	private void agregarNumero(String numero)
 	{
-		if(resultado.getText().equals("0")) 
+		if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) == '=')//Chequeamos si por ultima vez se presiono el boton "="
+			resultado.setText(numero);
+		
+		else if(resultado.getText().equals("0")) 
 		{	
 			resultado.setText(numero);
 			seguimiento.setText(numero);
 		}
+		
 		else 
 		{
 			resultado.setText(resultado.getText() + numero);			
