@@ -109,9 +109,21 @@ public class Calculadora
 			if(resultado != 0)
 				resultado = 0;
 			
-			numeroActual += valor;
+			if(!(actualEsDecimal() && valor.equals(".")))
+				numeroActual += valor;
+			
 			System.out.println(numeroActual);
 		}
+	}
+
+
+	private boolean actualEsDecimal() 
+	{
+		for(int i=0; i < numeroActual.length(); i++)
+			if(numeroActual.charAt(i) == '.')
+				return true;
+		
+		return false;
 	}
 
 
@@ -191,6 +203,9 @@ public class Calculadora
 			signos.remove(0);
 			
 		}
+		
+		if(signos.size() > 0)
+			signos.remove(0);
 	}
 	
 	private void resetear() //Funcion que resetea todos los datos de la calculadora
