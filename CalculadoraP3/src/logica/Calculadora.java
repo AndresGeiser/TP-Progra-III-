@@ -35,6 +35,8 @@ public class Calculadora
 			
 			if(numeros.size() == 0 && !actualEstaVacio() )//Si no se agrego ningun numero y se estuvo formando uno agregamos este ultimo.
 			{	
+				numeroActual = "0."; //<-- Se agrega un 0 para evitar recibir solo un punto
+				
 				if(!actualEsResta())
 					resultado = Double.parseDouble(numeroActual);
 				
@@ -202,11 +204,9 @@ public class Calculadora
 		numeroActual = "";
 		resultado = 0;
 		
-		while(numeros.size() != 0)
-			numeros.remove(0);
+		numeros.clear();
 		
-		while(cantSignos() != 0)
-			signos.remove(0);
+		signos.clear();
 	}	
 	
 	private void sumar(double num1, double num2)
@@ -238,8 +238,12 @@ public class Calculadora
 	{
 		signos.add(valor);
 		
+		if ( numeroActual.equals("."))
+			numeroActual = "0.";
+		
 		if(!actualEstaVacio())
 			numeros.add(Double.parseDouble(numeroActual));
+		
 		
 		numeroActual = "";
 	}

@@ -27,7 +27,20 @@ public class CalculadoraTest {
 		calculadora.obtenerValor("2");
 		calculadora.obtenerValor("=");
 
-		assertTrue(35.0 == calculadora.getResultado());
+		assertTrue(35 == calculadora.getResultado());
+	}
+	
+	@Test 
+	public void sumarDecimales()
+	{
+		Calculadora calculadora = new Calculadora();
+		
+		calculadora.obtenerValor("2.5");
+		calculadora.obtenerValor("+");
+		calculadora.obtenerValor("2.2");
+		calculadora.obtenerValor("=");
+		
+		assertTrue(4.7 == calculadora.getResultado());
 	}
 
 	@Test
@@ -92,6 +105,29 @@ public class CalculadoraTest {
 		assertTrue(25  == Double.parseDouble(calculadora.getNumeroActual()));
 	}
 	
+	@Test
+	public void simplificar()
+	{
+		Calculadora calculadora = new Calculadora();
+		
+		calculadora.obtenerValor("0");
+		calculadora.obtenerValor(".");
+		calculadora.obtenerValor("=");
+		
+		assertTrue(0 == calculadora.getResultado());
+		
+	}
+	
+	@Test
+	public void simplificarPunto()
+	{
+		Calculadora calculadora = new Calculadora();
+		
+		calculadora.obtenerValor(".");
+		calculadora.obtenerValor("=");
+		
+		assertTrue(0 == calculadora.getResultado());
+	}
 
 }
 
