@@ -257,4 +257,9 @@ public class Calculadora
 	{
 		return numeroActual;
 	}	
+	
+	public String getUltimoSigno()
+	{
+		return signos.get(signos.size() - 1);
+	}
 }	

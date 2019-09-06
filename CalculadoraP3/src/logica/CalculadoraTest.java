@@ -144,6 +144,30 @@ public class CalculadoraTest {
 		assertTrue(0 == calculadora.getResultado());
 	}
 	
+	@Test
+	public void resetear()
+	{
+		Calculadora calculadora = new Calculadora();
+		
+		calculadora.obtenerValor("123");
+		calculadora.obtenerValor("C");
+		
+		assertTrue(0 == calculadora.getResultado() );
+	}
+	
+	@Test
+	public void cambiarUltimoSigno()
+	{
+		Calculadora calculadora = new Calculadora();
+		
+		calculadora.obtenerValor("3");
+		calculadora.obtenerValor("+");
+		calculadora.obtenerValor("-");
+		
+		assertEquals("-",calculadora.getUltimoSigno());
+	
+	}
+	
 
 }
 
