@@ -351,18 +351,12 @@ public class GuiCalculadora
 		frmCalculadora.getContentPane().setLayout(null);
 		frmCalculadora.getContentPane().setBackground(new Color (13,13,13));
 		
-		resultado = new JTextField("0") 
-		{
-			@Override
-			public void setBorder(Border border) 
-			{
-				//Para que no tenga bordes
-			}
-		};
+		resultado = new JTextField("0");
 		resultado.setBackground(new Color(13,13,13));
 		resultado.setForeground(new Color(204, 82, 0));
 		resultado.setEditable(false);
 		resultado.setFont(new Font("Tw Cen MT", Font.PLAIN, 50));
+		resultado.setBorder(null);
 		resultado.setBounds(10, 11, 378, 101);
 		frmCalculadora.getContentPane().add(resultado);
 		resultado.setColumns(10);
