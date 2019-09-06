@@ -110,7 +110,7 @@ public class CalculadoraTest {
 	}
 	 
 	@Test
-	public void borrarElementos()
+	public void borrarNumero()
 	{
 		Calculadora calculadora = new Calculadora();
 		
@@ -118,6 +118,19 @@ public class CalculadoraTest {
 		calculadora.obtenerValor("<");
 		
 		assertTrue(25  == Double.parseDouble(calculadora.getNumeroActual()));
+	}
+	
+	@Test
+	public void borrarSigno()
+	{
+		Calculadora calculadora = new Calculadora();
+		
+		calculadora.obtenerValor("5");
+		calculadora.obtenerValor("-");
+		calculadora.obtenerValor("<");
+
+		
+		assertTrue(5 == Double.parseDouble(calculadora.getNumeroActual()));
 	}
 	
 	@Test
@@ -167,7 +180,5 @@ public class CalculadoraTest {
 		assertEquals("-",calculadora.getUltimoSigno());
 	
 	}
-	
 
 }
-
