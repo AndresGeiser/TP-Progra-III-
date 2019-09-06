@@ -5,24 +5,23 @@ private void calcular()
 		
 		//Resolvemos operadores primarios * y /
 		for(int i=0; i < signos.size(); i++)
-		{		
-			while(signos.get(i).equals("*") || signos.get(i).equals("/") ) 
+		{			
+			if(signos.get(i).equals("*")) 
 			{
-				
-				if(signos.get(i).equals("*")) 
-				{
-					numeros.set(i, numeros.get(i) * numeros.get(i+1));
-					numeros.remove(i+1);
-					signos.remove(i);
-				}
-				
-				if(signos.get(i).equals("/"))
-				{
-					numeros.set(i, numeros.get(i) / numeros.get(i+1));
-					numeros.remove(i+1);
-					signos.remove(i);
-				}
+				numeros.set(i, numeros.get(i) * numeros.get(i+1));
+				numeros.remove(i+1);
+				signos.remove(i);
+				i--;
 			}
+			
+			else if(signos.get(i).equals("/"))
+			{
+				numeros.set(i, numeros.get(i) / numeros.get(i+1));
+				numeros.remove(i+1);
+				signos.remove(i);
+				i--;
+				
+			}	
 		}
 		
 		
