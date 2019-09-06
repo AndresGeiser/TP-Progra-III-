@@ -174,6 +174,32 @@ public class Calculadora
 	
 	private void calcular() 
 	{
+		if(signos.size() == numeros.size())//Sacamos el ultimo signo por si ingresan una cantidad de signos igual al de numeros para evitar errores de calculos en el futuro
+			signos.remove(signos.size() - 1);
+		
+		//Resolvemos operadores primarios * y /
+		for(int i=0; i < signos.size(); i++)
+		{			
+			if(signos.get(i).equals("*")) 
+			{
+				numeros.set(i, numeros.get(i) * numeros.get(i+1));
+				numeros.remove(i+1);
+				signos.remove(i);
+				i--;
+			}
+			
+			else if(signos.get(i).equals("/"))
+			{
+				numeros.set(i, numeros.get(i) / numeros.get(i+1));
+				numeros.remove(i+1);
+				signos.remove(i);
+				i--;
+				
+			}	
+		}
+		
+		
+		//Resolvemos operadores + y -
 		resultado = numeros.get(0);
 		numeros.remove(0);		
 		
@@ -185,18 +211,10 @@ public class Calculadora
 			if(signos.get(0).equals("-"))
 				restar(resultado, numeros.get(0));
 			
-			if(signos.get(0).equals("/"))
-				dividir(resultado, numeros.get(0));
-			
-			if(signos.get(0).equals("*"))
-				multiplicar(resultado, numeros.get(0));
-			
 			numeros.remove(0);
 			signos.remove(0);
 		}
 		
-		if(signos.size() > 0)
-			signos.remove(0);
 	}
 	
 	private void resetear() //Funcion que resetea todos los datos de la calculadora
@@ -262,4 +280,3 @@ public class Calculadora
 	{
 		return signos.get(signos.size() - 1);
 	}
-}	
