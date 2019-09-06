@@ -97,6 +97,36 @@ public class CalculadoraTest {
 	}
 	
 	@Test
+	public void multiplicarDecimales()
+	{
+		Calculadora calculadora = new Calculadora();
+		
+		calculadora.obtenerValor("2.5");
+		calculadora.obtenerValor("*");
+		calculadora.obtenerValor("2.5");
+		calculadora.obtenerValor("=");
+		
+		assertTrue((float)6.25 == calculadora.getResultado());
+	}
+	
+	@Test
+	public void ordenDeOperaciones()
+	{
+		Calculadora calculadora = new Calculadora();
+		
+		calculadora.obtenerValor("3");
+		calculadora.obtenerValor("+");
+		
+		calculadora.obtenerValor("3");
+		calculadora.obtenerValor("*");
+		calculadora.obtenerValor("3");
+	
+		calculadora.obtenerValor("=");
+		
+		assertTrue(12 == calculadora.getResultado());
+	}
+	
+	@Test
 	public void dividir()
 	{
 		Calculadora calculadora = new Calculadora();
@@ -180,5 +210,6 @@ public class CalculadoraTest {
 		assertEquals("-",calculadora.getUltimoSigno());
 	
 	}
+		
 
 }
