@@ -87,7 +87,7 @@ public class Calculadora
 			if(noHayDatos())													
 				return;
 			
-			if(resultado != 0) 
+			if(resultado != 0)
 			{
 				numeros.add(resultado);
 				resultado = 0 ;
@@ -171,7 +171,7 @@ public class Calculadora
 	}
 	
 	private void calcular() 
-	{	
+	{
 		resultado = numeros.get(0);
 		numeros.remove(0);		
 		
@@ -191,7 +191,6 @@ public class Calculadora
 			
 			numeros.remove(0);
 			signos.remove(0);
-			
 		}
 		
 		if(signos.size() > 0)
