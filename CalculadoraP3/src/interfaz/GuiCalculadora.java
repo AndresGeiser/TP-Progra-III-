@@ -347,7 +347,7 @@ public class GuiCalculadora
 		frmCalculadora.getContentPane().setBackground(Color.BLACK);
 		frmCalculadora.setBackground(Color.WHITE);
 		frmCalculadora.setTitle("Calculadora");
-		frmCalculadora.setBounds(100, 100, 416, 474);
+		frmCalculadora.setBounds(100, 100, 347, 435);
 		frmCalculadora.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCalculadora.getContentPane().setLayout(null);
 		frmCalculadora.getContentPane().setBackground(new Color (13,13,13));
@@ -356,9 +356,9 @@ public class GuiCalculadora
 		resultado.setBackground(new Color(13,13,13));
 		resultado.setForeground(new Color(204, 82, 0));
 		resultado.setEditable(false);
-		resultado.setFont(new Font("Tw Cen MT", Font.PLAIN, 50));
+		resultado.setFont(new Font("OCR A Extended", Font.BOLD, 40));
 		resultado.setBorder(null);
-		resultado.setBounds(10, 11, 378, 101);
+		resultado.setBounds(10, 11, 320, 101);
 		frmCalculadora.getContentPane().add(resultado);
 		resultado.setColumns(10);
 		
@@ -366,7 +366,7 @@ public class GuiCalculadora
 		seguimiento.setEditable(false);
 		seguimiento.setFont(new Font("Tw Cen MT", Font.PLAIN, 15));
 		seguimiento.setBackground(new Color(166, 166, 166));
-		seguimiento.setBounds(10, 379, 378, 45);
+		seguimiento.setBounds(10, 350, 312, 36);
 		frmCalculadora.getContentPane().add(seguimiento);
 		seguimiento.setColumns(10);
 	}
@@ -380,7 +380,7 @@ public class GuiCalculadora
 		boton_0.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_0.setBorderPainted(false);
 		boton_0.setFocusable(false);
-		boton_0.setBounds(10, 315, 66, 53);
+		boton_0.setBounds(0, 285, 66, 54);
 		frmCalculadora.getContentPane().add(boton_0);
 	
 		boton_1 = new JButton("1");
@@ -390,7 +390,7 @@ public class GuiCalculadora
 		boton_1.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_1.setBorderPainted(false);
 		boton_1.setFocusable(false);
-		boton_1.setBounds(10, 251, 66, 53);
+		boton_1.setBounds(0, 231, 66, 54);
 		frmCalculadora.getContentPane().add(boton_1);
 	
 		boton_2 = new JButton("2");
@@ -400,7 +400,7 @@ public class GuiCalculadora
 		boton_2.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_2.setBorderPainted(false);
 		boton_2.setFocusable(false);
-		boton_2.setBounds(91, 251, 66, 53);
+		boton_2.setBounds(66, 231, 66, 54);
 		frmCalculadora.getContentPane().add(boton_2);
 		
 		boton_3 = new JButton("3");
@@ -410,7 +410,7 @@ public class GuiCalculadora
 		boton_3.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_3.setBorderPainted(false);
 		boton_3.setFocusable(false);
-		boton_3.setBounds(172, 251, 66, 53);
+		boton_3.setBounds(132, 231, 66, 54);
 		frmCalculadora.getContentPane().add(boton_3);
 		
 		boton_4 = new JButton("4");
@@ -420,7 +420,7 @@ public class GuiCalculadora
 		boton_4.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_4.setBorderPainted(false);
 		boton_4.setFocusable(false);
-		boton_4.setBounds(10, 187, 66, 53);
+		boton_4.setBounds(0, 177, 66, 54);
 		frmCalculadora.getContentPane().add(boton_4);
 	
 		boton_5 = new JButton("5");
@@ -430,7 +430,7 @@ public class GuiCalculadora
 		boton_5.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_5.setBorderPainted(false);
 		boton_5.setFocusable(false);
-		boton_5.setBounds(91, 187, 66, 53);
+		boton_5.setBounds(66, 177, 66, 54);
 		frmCalculadora.getContentPane().add(boton_5);
 		
 		boton_6 = new JButton("6");
@@ -440,7 +440,7 @@ public class GuiCalculadora
 		boton_6.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_6.setBorderPainted(false);
 		boton_6.setFocusable(false);
-		boton_6.setBounds(172, 187, 66, 53);
+		boton_6.setBounds(132, 177, 66, 54);
 		frmCalculadora.getContentPane().add(boton_6);	
 		
 		boton_7 = new JButton("7");
@@ -450,7 +450,7 @@ public class GuiCalculadora
 		boton_7.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_7.setBorderPainted(false);
 		boton_7.setFocusable(false);
-		boton_7.setBounds(10, 123, 66, 53);
+		boton_7.setBounds(0, 123, 66, 54);
 		frmCalculadora.getContentPane().add(boton_7);
 		
 		boton_8 = new JButton("8");
@@ -460,7 +460,7 @@ public class GuiCalculadora
 		boton_8.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_8.setBorderPainted(false);
 		boton_8.setFocusable(false);
-		boton_8.setBounds(91, 123, 66, 53);
+		boton_8.setBounds(66, 123, 66, 54);
 		frmCalculadora.getContentPane().add(boton_8);
 		
 		boton_9 = new JButton("9");
@@ -470,7 +470,7 @@ public class GuiCalculadora
 		boton_9.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_9.setBorderPainted(false);
 		boton_9.setFocusable(false);
-		boton_9.setBounds(172, 123, 66, 53);
+		boton_9.setBounds(132, 123, 66, 54);
 		frmCalculadora.getContentPane().add(boton_9);
 		
 		boton_Punto = new JButton(".");
@@ -480,7 +480,7 @@ public class GuiCalculadora
 		boton_Punto.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_Punto.setBorderPainted(false);
 		boton_Punto.setFocusable(false);
-		boton_Punto.setBounds(91, 315, 66, 53);
+		boton_Punto.setBounds(66, 285, 66, 54);
 		frmCalculadora.getContentPane().add(boton_Punto);
 	}
 
@@ -504,7 +504,7 @@ public class GuiCalculadora
 	private void inicializarBotonesOperadores() 
 	{
 		boton_Sum = new JButton("+");
-		boton_Sum.setBounds(248, 221, 66, 83);
+		boton_Sum.setBounds(198, 204, 66, 81);
 		boton_Sum.setForeground(new Color(255, 255, 255));
 		boton_Sum.setBackground(colorOperadores);
 		boton_Sum.setFont(new Font("Arial", Font.BOLD, 20));
@@ -514,7 +514,7 @@ public class GuiCalculadora
 		efectoHoverBotonesOperadores(boton_Sum);
 		
 		boton_Rest = new JButton("-");
-		boton_Rest.setBounds(324, 221, 66, 83);
+		boton_Rest.setBounds(264, 204, 66, 81);
 		boton_Rest.setForeground(new Color(255, 255, 255));
 		boton_Rest.setBackground(colorOperadores);
 		boton_Rest.setFont(new Font("Arial", Font.BOLD, 20));
@@ -524,7 +524,7 @@ public class GuiCalculadora
 		efectoHoverBotonesOperadores(boton_Rest);
 		
 		boton_Div = new JButton("/");
-		boton_Div.setBounds(322, 123, 66, 83);
+		boton_Div.setBounds(264, 123, 66, 81);
 		boton_Div.setForeground(new Color(255, 255, 255));
 		boton_Div.setBackground(colorOperadores);
 		boton_Div.setFont(new Font("Arial", Font.BOLD, 20));
@@ -534,7 +534,7 @@ public class GuiCalculadora
 		efectoHoverBotonesOperadores(boton_Div);
 		
 		boton_Mult = new JButton("*");
-		boton_Mult.setBounds(248, 123, 66, 83);
+		boton_Mult.setBounds(198, 123, 66, 81);
 		boton_Mult.setForeground(new Color(255, 255, 255));
 		boton_Mult.setBackground(colorOperadores);
 		boton_Mult.setFont(new Font("Arial", Font.BOLD, 20));
@@ -544,7 +544,7 @@ public class GuiCalculadora
 		efectoHoverBotonesOperadores(boton_Mult);
 		
 		boton_Borrar = new JButton("<");
-		boton_Borrar.setBounds(322, 315, 66, 53);
+		boton_Borrar.setBounds(264, 285, 66, 54);
 		boton_Borrar.setForeground(new Color(255, 255, 255));
 		boton_Borrar.setBackground(colorOperadores);
 		boton_Borrar.setFont(new Font("Arial", Font.BOLD, 20));
@@ -554,7 +554,7 @@ public class GuiCalculadora
 		efectoHoverBotonesOperadores(boton_Borrar);
 	
 		boton_Reset = new JButton("C");
-		boton_Reset.setBounds(248, 315, 66, 53);
+		boton_Reset.setBounds(198, 285, 66, 54);
 		boton_Reset.setForeground(new Color(255, 255, 255));
 		boton_Reset.setBackground(colorOperadores);
 		boton_Reset.setFont(new Font("Arial", Font.BOLD, 20));
@@ -579,7 +579,7 @@ public class GuiCalculadora
 		boton_Igual.setForeground(new Color(255, 255, 255));
 		boton_Igual.setBackground(new Color(204, 82, 0));
 		boton_Igual.setFont(new Font("Arial", Font.BOLD, 20));
-		boton_Igual.setBounds(172, 315, 66, 53);
+		boton_Igual.setBounds(132, 285, 66, 54);
 		boton_Igual.setFocusable(false);
 		boton_Igual.setBorderPainted(false);
 		frmCalculadora.getContentPane().add(boton_Igual);
