@@ -272,11 +272,14 @@ public class GuiCalculadora
 				if(!esDecimal(calculadora.getResultado())) 
 				{
 					resultado.setText(String.valueOf((int)calculadora.getResultado()));
+					
 				}
 				else
 					resultado.setText(String.valueOf(calculadora.getResultado()));
 				
 				seguimiento.setText(seguimiento.getText() +  "=");
+				seguimiento.setText(seguimiento.getText() +  String.valueOf((int)calculadora.getResultado()));
+
 			}
 		});	
 		
@@ -320,6 +323,7 @@ public class GuiCalculadora
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) != '=')
+				{
 					if(!haySigno() && !ultimoNumeroEsDecimal()) //No permite que el numero contenga mas de un signo seguido
 					{	
 						calculadora.obtenerValor(boton_Punto.getText());				
@@ -328,6 +332,12 @@ public class GuiCalculadora
 						seguimiento.setText(seguimiento.getText() + boton_Punto.getText());	
 						
 					}
+				}
+				else
+				{
+					resultado.setText(boton_Punto.getText());
+				}
+						
 			}
 		});
 	}
