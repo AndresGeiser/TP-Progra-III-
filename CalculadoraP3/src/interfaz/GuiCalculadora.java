@@ -269,7 +269,7 @@ public class GuiCalculadora
 					
 				}
 				else
-					resultado.setText(String.valueOf((float)calculadora.getResultado()));
+					resultado.setText(String.valueOf(calculadora.getResultado()));
 				
 				seguimiento.setText(seguimiento.getText() +  "=");
 				seguimiento.setText(seguimiento.getText() +  String.valueOf((int)calculadora.getResultado()));

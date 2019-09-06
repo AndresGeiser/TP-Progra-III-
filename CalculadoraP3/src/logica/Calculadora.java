@@ -248,9 +248,9 @@ public class Calculadora
 		numeroActual = "";
 	}
 	
-	public double getResultado() 
+	public float getResultado() 
 	{
-		return resultado;
+		return (float)resultado;
 	}
 
 	public String getNumeroActual() 

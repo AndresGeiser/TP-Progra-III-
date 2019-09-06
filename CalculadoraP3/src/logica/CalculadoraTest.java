@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+
 public class CalculadoraTest {
 
 	@Test
@@ -40,7 +41,7 @@ public class CalculadoraTest {
 		calculadora.obtenerValor("2.2");
 		calculadora.obtenerValor("=");
 		
-		assertTrue(4.7 == calculadora.getResultado());
+		assertTrue((float)4.7 == calculadora.getResultado());
 	}
 
 	@Test
@@ -61,12 +62,12 @@ public class CalculadoraTest {
 	{
 		Calculadora calculadora = new Calculadora();
 		
-		calculadora.obtenerValor("2.5");
+		calculadora.obtenerValor("0.5");
 		calculadora.obtenerValor("-");
-		calculadora.obtenerValor("1.3");
+		calculadora.obtenerValor("0.4");
 		calculadora.obtenerValor("=");
 		
-		assertTrue( 1.2 == calculadora.getResultado());
+		assertTrue( (float)0.1 == calculadora.getResultado());
 	}
 	
 	
