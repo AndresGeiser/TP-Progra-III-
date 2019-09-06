@@ -57,6 +57,20 @@ public class CalculadoraTest {
 	}
 	
 	@Test
+	public void restarDecimales()
+	{
+		Calculadora calculadora = new Calculadora();
+		
+		calculadora.obtenerValor("2.5");
+		calculadora.obtenerValor("-");
+		calculadora.obtenerValor("1.3");
+		calculadora.obtenerValor("=");
+		
+		assertTrue( 1.2 == calculadora.getResultado());
+	}
+	
+	
+	@Test
 	public void restaNegativos()
 	{
 		Calculadora calculadora = new Calculadora();

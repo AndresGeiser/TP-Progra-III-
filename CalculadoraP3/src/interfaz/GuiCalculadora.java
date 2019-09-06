@@ -242,7 +242,8 @@ public class GuiCalculadora
 					seguimiento.setText(boton_Rest.getText());
 				}
 				
-				else if(resultado.getText().charAt(resultado.getText().length() - 1) == '+' || resultado.getText().charAt(resultado.getText().length() - 1) == '-' ) 
+				else if(resultado.getText().charAt(resultado.getText().length() - 1) == '+' || resultado.getText().charAt(resultado.getText().length() - 1) == '-' 
+						|| resultado.getText().charAt(resultado.getText().length() - 1) == '.') 
 					reemplazarSigno(boton_Rest.getText());
 				
 				else
