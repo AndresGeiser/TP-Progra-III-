@@ -626,8 +626,19 @@ public class GuiCalculadora
 	
 	private void reemplazarSigno(String signo) 
 	{
-		resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1) + signo);
-		seguimiento.setText(seguimiento.getText().substring(0, seguimiento.getText().length() - 1) + signo);
+		if(resultado.getText().length() > 1) 
+		{		
+			if(resultado.getText().charAt(resultado.getText().length() - 1) == '-' && (resultado.getText().charAt(resultado.getText().length() - 2) == '/' || resultado.getText().charAt(resultado.getText().length() - 2) == '*'))
+			{	
+				resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1) );
+				seguimiento.setText(seguimiento.getText().substring(0, seguimiento.getText().length() - 1));
+			}
+			else 
+			{
+				resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1) + signo);
+				seguimiento.setText(seguimiento.getText().substring(0, seguimiento.getText().length() - 1) + signo);
+			}
+		}
 	}
 	
 	//Dice si un numero es decimal
