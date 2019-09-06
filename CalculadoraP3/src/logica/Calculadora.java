@@ -109,21 +109,11 @@ public class Calculadora
 			if(resultado != 0)
 				resultado = 0;
 			
-			if(!(actualEsDecimal() && valor.equals(".")))
-				numeroActual += valor;
+			
+			numeroActual += valor;
 			
 			System.out.println(numeroActual);
 		}
-	}
-
-
-	private boolean actualEsDecimal() 
-	{
-		for(int i=0; i < numeroActual.length(); i++)
-			if(numeroActual.charAt(i) == '.')
-				return true;
-		
-		return false;
 	}
 
 

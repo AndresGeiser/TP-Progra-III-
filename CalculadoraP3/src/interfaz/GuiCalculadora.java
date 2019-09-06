@@ -320,12 +320,13 @@ public class GuiCalculadora
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				if(seguimiento.getText().charAt(seguimiento.getText().length() - 1) != '=')
-					if(!haySigno()) //No permite que el numero contenga mas de un signo seguido
+					if(!haySigno() && !ultimoNumeroEsDecimal()) //No permite que el numero contenga mas de un signo seguido
 					{	
 						calculadora.obtenerValor(boton_Punto.getText());				
-
+						
 						resultado.setText(resultado.getText() + boton_Punto.getText());
 						seguimiento.setText(seguimiento.getText() + boton_Punto.getText());	
+						
 					}
 			}
 		});
@@ -566,4 +567,19 @@ public class GuiCalculadora
 		}
 	}
 	
+	
+	public boolean ultimoNumeroEsDecimal()
+	{
+		boolean esDecimal = false;
+		
+		for(int i=0; i< resultado.getText().length(); i++)
+		{
+			if(resultado.getText().charAt(i) == '.')
+				esDecimal = true;
+			if(resultado.getText().charAt(i) == '/' || resultado.getText().charAt(i) == '*' || resultado.getText().charAt(i) == '-' || resultado.getText().charAt(i) == '+')
+				esDecimal = false;
+		}
+		return esDecimal;
+		
+	}
 }	
