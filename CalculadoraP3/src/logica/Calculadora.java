@@ -35,15 +35,15 @@ public class Calculadora
 			
 			if(numeros.size() == 0 && !actualEstaVacio() )//Si no se agrego ningun numero y se estuvo formando uno agregamos este ultimo.
 			{	
-				numeroActual = "0."; //<-- Se agrega un 0 para evitar recibir solo un punto
 				
-				if(!actualEsResta())
+				if(!actualEsInvalido())
 					resultado = Double.parseDouble(numeroActual);
 				
 				numeroActual = "";
+				System.out.println(resultado);
 			}
 			
-			if(!actualEstaVacio() && !actualEsResta()) //Chequeamos que se estuviera formando un numero antes de agregarlo.
+			if(!actualEstaVacio() && !actualEsInvalido()) //Chequeamos que se estuviera formando un numero antes de agregarlo.
 			{
 				numeros.add(Double.parseDouble(numeroActual));
 				numeroActual = "";
@@ -68,19 +68,23 @@ public class Calculadora
 				
 				if(hayAlgunSigno()) 
 				{
-					if(actualEstaVacio() && ultimoSignoEs("*") || ultimoSignoEs("/")) //Permite operar con las operaciones entre negativos
-						numeroActual += valor;
+					if(actualEstaVacio() && ultimoSigno().equals("*") || ultimoSigno().equals("/") || ultimoSigno().equals("+"))
+					{
+						if(!actualEsInvalido())
+							numeroActual += valor;
 						
-					else if(actualEstaVacio() && ultimoSignoEs("+"))                      //Permite cambiar el signo a un numero positivo
-						reemplazarUltimoSigno(valor);
-					
+						System.out.println(numeroActual);
+					}
 					else
-						guardarDatos(valor);
+						if(!actualEsInvalido())
+							guardarDatos(valor);
 				}
 				else
-					if(!actualEsResta())
+				{
+					if(!actualEsInvalido())
 						guardarDatos(valor);
-		
+					
+				}
 			}	
 		}
 		
@@ -99,8 +103,9 @@ public class Calculadora
 				reemplazarUltimoSigno(valor);			//Entonces reemplazamos ese ultimo signo por el nuevo	
 			else 
 			{
-				if(!actualEsResta())
-					guardarDatos(valor);
+				if(!actualEsInvalido())
+					guardarDatos(valor);	
+				
 				else
 					numeroActual = "";
 			}
@@ -111,7 +116,6 @@ public class Calculadora
 			if(resultado != 0)
 				resultado = 0;
 			
-			
 			numeroActual += valor;
 			
 			System.out.println(numeroActual);
@@ -119,9 +123,9 @@ public class Calculadora
 	}
 
 
-	private boolean actualEsResta() 
+	private boolean actualEsInvalido() 
 	{
-		return numeroActual.equals("-");
+		return numeroActual.equals("-") || numeroActual.equals(".");
 	}
 
 	private boolean hayAlgunSigno() 
@@ -134,9 +138,9 @@ public class Calculadora
 		return signos.size();
 	}
 
-	private boolean ultimoSignoEs(String signo)
+	private String ultimoSigno()
 	{
-		return signos.get(cantSignos() -1).equals(signo);
+		return signos.get(cantSignos() -1);
 	}
 	
 	
@@ -194,10 +198,8 @@ public class Calculadora
 				numeros.remove(i+1);
 				signos.remove(i);
 				i--;
-				
 			}	
 		}
-		
 		
 		//Resolvemos operadores + y -
 		resultado = numeros.get(0);
@@ -205,11 +207,11 @@ public class Calculadora
 		
 		while(numeros.size() != 0) 
 		{
-			if(signos.get(0).equals("+"))
-				sumar(resultado, numeros.get(0));
-			
+			if(signos.get(0).equals("+")) 
+				sumar(numeros.get(0));
+				
 			if(signos.get(0).equals("-"))
-				restar(resultado, numeros.get(0));
+				restar(numeros.get(0));
 			
 			numeros.remove(0);
 			signos.remove(0);
@@ -227,24 +229,14 @@ public class Calculadora
 		signos.clear();
 	}	
 	
-	private void sumar(double num1, double num2)
+	private void sumar( double num)
 	{
-		resultado = num1 + num2;
+		resultado += num;
 	}
 	
-	private void restar(double num1, double num2)
+	private void restar(double num)
 	{
-		resultado = num1 - num2;
-	}
-	
-	private void dividir(double num1, double num2)
-	{
-		resultado = num1 / num2;
-	}
-	
-	private void multiplicar(double num1, double num2)
-	{
-		resultado = num1 * num2;
+		resultado -= num;
 	}
 	
 	private void reemplazarUltimoSigno(String valor) 
@@ -256,19 +248,15 @@ public class Calculadora
 	{
 		signos.add(valor);
 		
-		if ( numeroActual.equals("."))
-			numeroActual = "0.";
-		
 		if(!actualEstaVacio())
 			numeros.add(Double.parseDouble(numeroActual));
-		
 		
 		numeroActual = "";
 	}
 	
 	public float getResultado() 
 	{
-		return (float)resultado;
+		return (float) resultado;
 	}
 
 	public String getNumeroActual() 
@@ -280,3 +268,4 @@ public class Calculadora
 	{
 		return signos.get(signos.size() - 1);
 	}
+}
