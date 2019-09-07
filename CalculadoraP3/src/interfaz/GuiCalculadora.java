@@ -79,7 +79,7 @@ public class GuiCalculadora
 				}
 				else
 				{
-					if(!resultado.getText().equals("0")) 
+					if(hayPrimerNumero() && !despuesDeSignoHayCero()) 
 					{
 						resultado.setText(resultado.getText() + boton_0.getText());
 						seguimiento.setText(seguimiento.getText() + "0");
@@ -91,11 +91,11 @@ public class GuiCalculadora
 		
 		boton_1.addActionListener(new ActionListener()
 		{
-			public void actionPerformed(ActionEvent e) 
-			{				
+			public void actionPerformed(ActionEvent e)
+			{
 				calculadora.obtenerValor(boton_1.getText());
-				
-				agregarNumero(boton_1.getText());
+		
+				agregarNumero(boton_1.getText());	
 			}
 		});
 		
@@ -233,19 +233,18 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerValor(boton_Rest.getText());
 				
-				if(resultado.getText().equals("0"))
+				if(operacion().equals("0"))
 				{
 					resultado.setText(boton_Rest.getText());
 					seguimiento.setText(boton_Rest.getText());
 				}
 				
-				else if(resultado.getText().charAt(resultado.getText().length() - 1) == '+' || resultado.getText().charAt(resultado.getText().length() - 1) == '-' 
-						|| resultado.getText().charAt(resultado.getText().length() - 1) == '.') 
+				else if(ultimoCaracter() == '+' || ultimoCaracter() == '-' || ultimoCaracter() == '.') 
 					reemplazarSigno(boton_Rest.getText());
 				
-				else
+				else 
 				{
-					resultado.setText(resultado.getText() + boton_Rest.getText());
+					resultado.setText(operacion() + boton_Rest.getText());
 					seguimiento.setText(seguimiento.getText() + boton_Rest.getText());
 				}
 				
@@ -264,7 +263,7 @@ public class GuiCalculadora
 				seguimiento.setText(seguimiento.getText() +  "=");
 				seguimiento.setText(seguimiento.getText() +  String.valueOf(calculadora.getResultado()));	
 				
-				if(!ultimoNumeroEsDecimal()) 
+				if(esEntero(calculadora.getResultado())) 
 				{
 					resultado.setText(String.valueOf((int)calculadora.getResultado()));
 					seguimiento.setText(seguimiento.getText() +  String.valueOf((int)calculadora.getResultado()));	
@@ -295,12 +294,12 @@ public class GuiCalculadora
 				
 				if(!sePresionoIgual)
 				{
-					if(resultado.getText().length() == 1)
+					if(largo() == 1)
 						resultado.setText("0");
 				
-					else if (resultado.getText().length() > 0)
+					else if (largo() > 0)
 					{
-						resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1));
+						resultado.setText(operacion().substring(0, largo() - 1));
 					
 						seguimiento.setText(seguimiento.getText().substring(0, seguimiento.getText().length() - 1));
 					}
@@ -319,7 +318,7 @@ public class GuiCalculadora
 					{	
 						calculadora.obtenerValor(boton_Punto.getText());				
 						
-						resultado.setText(resultado.getText() + boton_Punto.getText());
+						resultado.setText(operacion() + boton_Punto.getText());
 						seguimiento.setText(seguimiento.getText() + boton_Punto.getText());
 					}
 				}
@@ -333,6 +332,8 @@ public class GuiCalculadora
 			}
 		});
 	}
+	
+
 
 	//INICIALIZACION DE BOTONES
 	private void inicializarCalculadora() 
@@ -343,7 +344,7 @@ public class GuiCalculadora
 		frmCalculadora.getContentPane().setBackground(Color.BLACK);
 		frmCalculadora.setBackground(Color.WHITE);
 		frmCalculadora.setTitle("Calculadora");
-		frmCalculadora.setBounds(100, 100, 336, 422);
+		frmCalculadora.setBounds(100, 100, 336, 380);
 		frmCalculadora.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCalculadora.getContentPane().setLayout(null);
 		frmCalculadora.getContentPane().setBackground(new Color (13,13,13));
@@ -354,7 +355,7 @@ public class GuiCalculadora
 		resultado.setEditable(false);
 		resultado.setFont(new Font("Tw Cen MT", Font.PLAIN, 50));
 		resultado.setBorder(null);
-		resultado.setBounds(10, 11, 320, 101);
+		resultado.setBounds(10, 11, 312, 54);
 		frmCalculadora.getContentPane().add(resultado);
 		resultado.setColumns(10);
 
@@ -362,7 +363,7 @@ public class GuiCalculadora
 		seguimiento.setEditable(false);
 		seguimiento.setFont(new Font("Tw Cen MT", Font.PLAIN, 15));
 		seguimiento.setBackground(new Color(166, 166, 166));
-		seguimiento.setBounds(10, 350, 312, 36);
+		seguimiento.setBounds(10, 321, 312, 23);
 		frmCalculadora.getContentPane().add(seguimiento);
 		seguimiento.setColumns(10);
 	}
@@ -376,7 +377,7 @@ public class GuiCalculadora
 		boton_0.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_0.setBorderPainted(false);
 		boton_0.setFocusable(false);
-		boton_0.setBounds(0, 285, 66, 54);
+		boton_0.setBounds(0, 256, 66, 54);
 		frmCalculadora.getContentPane().add(boton_0);
 	
 		boton_1 = new JButton("1");
@@ -386,7 +387,7 @@ public class GuiCalculadora
 		boton_1.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_1.setBorderPainted(false);
 		boton_1.setFocusable(false);
-		boton_1.setBounds(0, 231, 66, 54);
+		boton_1.setBounds(0, 202, 66, 54);
 		frmCalculadora.getContentPane().add(boton_1);
 	
 		boton_2 = new JButton("2");
@@ -396,7 +397,7 @@ public class GuiCalculadora
 		boton_2.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_2.setBorderPainted(false);
 		boton_2.setFocusable(false);
-		boton_2.setBounds(66, 231, 66, 54);
+		boton_2.setBounds(66, 202, 66, 54);
 		frmCalculadora.getContentPane().add(boton_2);
 		
 		boton_3 = new JButton("3");
@@ -406,7 +407,7 @@ public class GuiCalculadora
 		boton_3.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_3.setBorderPainted(false);
 		boton_3.setFocusable(false);
-		boton_3.setBounds(132, 231, 66, 54);
+		boton_3.setBounds(132, 202, 66, 54);
 		frmCalculadora.getContentPane().add(boton_3);
 		
 		boton_4 = new JButton("4");
@@ -416,7 +417,7 @@ public class GuiCalculadora
 		boton_4.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_4.setBorderPainted(false);
 		boton_4.setFocusable(false);
-		boton_4.setBounds(0, 177, 66, 54);
+		boton_4.setBounds(0, 148, 66, 54);
 		frmCalculadora.getContentPane().add(boton_4);
 	
 		boton_5 = new JButton("5");
@@ -426,7 +427,7 @@ public class GuiCalculadora
 		boton_5.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_5.setBorderPainted(false);
 		boton_5.setFocusable(false);
-		boton_5.setBounds(66, 177, 66, 54);
+		boton_5.setBounds(66, 148, 66, 54);
 		frmCalculadora.getContentPane().add(boton_5);
 		
 		boton_6 = new JButton("6");
@@ -436,7 +437,7 @@ public class GuiCalculadora
 		boton_6.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_6.setBorderPainted(false);
 		boton_6.setFocusable(false);
-		boton_6.setBounds(132, 177, 66, 54);
+		boton_6.setBounds(132, 148, 66, 54);
 		frmCalculadora.getContentPane().add(boton_6);	
 		
 		boton_7 = new JButton("7");
@@ -446,7 +447,7 @@ public class GuiCalculadora
 		boton_7.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_7.setBorderPainted(false);
 		boton_7.setFocusable(false);
-		boton_7.setBounds(0, 123, 66, 54);
+		boton_7.setBounds(0, 94, 66, 54);
 		frmCalculadora.getContentPane().add(boton_7);
 		
 		boton_8 = new JButton("8");
@@ -456,7 +457,7 @@ public class GuiCalculadora
 		boton_8.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_8.setBorderPainted(false);
 		boton_8.setFocusable(false);
-		boton_8.setBounds(66, 123, 66, 54);
+		boton_8.setBounds(66, 94, 66, 54);
 		frmCalculadora.getContentPane().add(boton_8);
 		
 		boton_9 = new JButton("9");
@@ -466,7 +467,7 @@ public class GuiCalculadora
 		boton_9.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_9.setBorderPainted(false);
 		boton_9.setFocusable(false);
-		boton_9.setBounds(132, 123, 66, 54);
+		boton_9.setBounds(132, 94, 66, 54);
 		frmCalculadora.getContentPane().add(boton_9);
 		
 		boton_Punto = new JButton(".");
@@ -476,15 +477,14 @@ public class GuiCalculadora
 		boton_Punto.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_Punto.setBorderPainted(false);
 		boton_Punto.setFocusable(false);
-		boton_Punto.setBounds(66, 285, 66, 54);
+		boton_Punto.setBounds(66, 256, 66, 54);
 		frmCalculadora.getContentPane().add(boton_Punto);
 	}
 
-	
 	private void inicializarBotonesOperadores() 
 	{
 		boton_Sum = new JButton("+");
-		boton_Sum.setBounds(198, 204, 66, 81);
+		boton_Sum.setBounds(198, 175, 66, 81);
 		boton_Sum.setForeground(new Color(255, 255, 255));
 		boton_Sum.setBackground(colorOperadores);
 		boton_Sum.setFont(new Font("Arial", Font.BOLD, 20));
@@ -494,7 +494,7 @@ public class GuiCalculadora
 		efectoHoverBoton(boton_Sum, colorOperHover, colorOperadores);
 		
 		boton_Rest = new JButton("-");
-		boton_Rest.setBounds(264, 204, 66, 81);
+		boton_Rest.setBounds(264, 175, 66, 81);
 		boton_Rest.setForeground(new Color(255, 255, 255));
 		boton_Rest.setBackground(colorOperadores);
 		boton_Rest.setFont(new Font("Arial", Font.BOLD, 20));
@@ -504,7 +504,7 @@ public class GuiCalculadora
 		efectoHoverBoton(boton_Rest, colorOperHover, colorOperadores);
 		
 		boton_Div = new JButton("/");
-		boton_Div.setBounds(264, 123, 66, 81);
+		boton_Div.setBounds(264, 94, 66, 81);
 		boton_Div.setForeground(new Color(255, 255, 255));
 		boton_Div.setBackground(colorOperadores);
 		boton_Div.setFont(new Font("Arial", Font.BOLD, 20));
@@ -514,7 +514,7 @@ public class GuiCalculadora
 		efectoHoverBoton(boton_Div, colorOperHover, colorOperadores);
 		
 		boton_Mult = new JButton("*");
-		boton_Mult.setBounds(198, 123, 66, 81);
+		boton_Mult.setBounds(198, 94, 66, 81);
 		boton_Mult.setForeground(new Color(255, 255, 255));
 		boton_Mult.setBackground(colorOperadores);
 		boton_Mult.setFont(new Font("Arial", Font.BOLD, 20));
@@ -524,7 +524,7 @@ public class GuiCalculadora
 		efectoHoverBoton(boton_Mult, colorOperHover, colorOperadores);
 		
 		boton_Borrar = new JButton("<");
-		boton_Borrar.setBounds(264, 285, 66, 54);
+		boton_Borrar.setBounds(264, 256, 66, 54);
 		boton_Borrar.setForeground(new Color(255, 255, 255));
 		boton_Borrar.setBackground(colorOperadores);
 		boton_Borrar.setFont(new Font("Arial", Font.BOLD, 20));
@@ -534,7 +534,7 @@ public class GuiCalculadora
 		efectoHoverBoton(boton_Borrar, colorOperHover, colorOperadores);
 	
 		boton_Reset = new JButton("C");
-		boton_Reset.setBounds(198, 285, 66, 54);
+		boton_Reset.setBounds(198, 256, 66, 54);
 		boton_Reset.setForeground(new Color(255, 255, 255));
 		boton_Reset.setBackground(colorOperadores);
 		boton_Reset.setFont(new Font("Arial", Font.BOLD, 20));
@@ -548,7 +548,7 @@ public class GuiCalculadora
 		boton_Igual.setForeground(new Color(255, 255, 255));
 		boton_Igual.setBackground(new Color(204, 82, 0));
 		boton_Igual.setFont(new Font("Arial", Font.BOLD, 20));
-		boton_Igual.setBounds(132, 285, 66, 54);
+		boton_Igual.setBounds(132, 256, 66, 54);
 		boton_Igual.setFocusable(false);
 		boton_Igual.setBorderPainted(false);
 		frmCalculadora.getContentPane().add(boton_Igual);
@@ -572,40 +572,63 @@ public class GuiCalculadora
 		});
 	}
 	
-	
 	//METODOS AUXILIARES
 	
-	//Dice si en la cadena hay un numero distinto de 0
+	//Dice si despues del ultimo signo de la cadena hay un 0
+	private boolean despuesDeSignoHayCero() 
+	{
+		if(largo() > 1)
+			if(esSigno(operacion().charAt(largo() - 2)) &&  operacion().charAt(largo() - 1) == '0')
+				return true;
+		return false;
+	}
+	
+	
+	//Dice si el numero es decimal
+	private boolean esEntero(float numero) 
+	{
+		if (numero % 1 == 0) 
+	        return true;
+		return false;
+	}
+	
+	private boolean esSigno(char caracter) 
+	{
+		return (caracter == '+' || caracter == '*' || caracter == '-' || caracter == '/');
+	}
+	//Dice si la cadena es numero distinto de 0
+
+
 	private boolean hayPrimerNumero() 
 	{
-		if(resultado.getText().equals("0"))
+		if(operacion().equals("0"))
 			return false;
 		return true;
 	}
 	
+	//Dice si por ultima vez se presiono  "+"  "-"  "*"  "."  o "/"
 	//Dice si el ultimo caracter de la cadena es un '+', '-', '*', '/' o un '.'
 	private boolean ultimoEsSigno() 
 	{
-		if(resultado.getText().length() == 0)
+		if(largo()== 0)
 			return false;
 		
-		char caracter = resultado.getText().charAt(resultado.getText().length() - 1);
-		
-		return caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/' || caracter == '.';	
+		return esSigno(ultimoCaracter()) || ultimoCaracter() == '.';	
 	}
+	
 	
 	private void reemplazarSigno(String signo) 
 	{
-		if(resultado.getText().length() > 1) 
+		if(largo() > 1) 
 		{		
-			if(resultado.getText().charAt(resultado.getText().length() - 1) == '-' && (resultado.getText().charAt(resultado.getText().length() - 2) == '/' || resultado.getText().charAt(resultado.getText().length() - 2) == '*'))
+			if(ultimoCaracter() == '-' && (operacion().charAt(largo() - 2) == '/' || operacion().charAt(largo() - 2) == '*'))
 			{	
-				resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1) );
+				resultado.setText(operacion().substring(0, largo() - 1) );
 				seguimiento.setText(seguimiento.getText().substring(0, seguimiento.getText().length() - 1));
 			}
 			else 
 			{
-				resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1) + signo);
+				resultado.setText(operacion().substring(0, largo() - 1) + signo);
 				seguimiento.setText(seguimiento.getText().substring(0, seguimiento.getText().length() - 1) + signo);
 			}
 		}
@@ -619,16 +642,19 @@ public class GuiCalculadora
 			resultado.setText(numero);
 			sePresionoIgual = false;
 		}
-		
 		else if(resultado.getText().equals("0")) 
 		{	
 			resultado.setText(numero);
 			seguimiento.setText(numero);
 		}
-		
+		else if(despuesDeSignoHayCero()) 
+		{
+			resultado.setText(operacion().substring(0, largo() - 1) + numero);			
+			seguimiento.setText(seguimiento.getText().substring(0, seguimiento.getText().length() - 1) + numero);
+		}
 		else 
 		{
-			resultado.setText(resultado.getText() + numero);			
+			resultado.setText(operacion() + numero);			
 			seguimiento.setText(seguimiento.getText() + numero);
 		}
 	}
@@ -642,7 +668,7 @@ public class GuiCalculadora
 				reemplazarSigno(operador);
 			else 
 			{
-				resultado.setText(resultado.getText() + operador);
+				resultado.setText(operacion() + operador);
 				seguimiento.setText(seguimiento.getText() + operador);	
 			}
 		}
@@ -653,14 +679,33 @@ public class GuiCalculadora
 	{
 		boolean esDecimal = false;
 		
-		for(int i=0; i< resultado.getText().length(); i++)
+		for(int i=0; i< largo(); i++)
 		{
-			if(resultado.getText().charAt(i) == '.')
+			if(operacion().charAt(i) == '.') 
 				esDecimal = true;
-			if(resultado.getText().charAt(i) == '/' || resultado.getText().charAt(i) == '*' || resultado.getText().charAt(i) == '-' || resultado.getText().charAt(i) == '+')
+			
+			if(operacion().charAt(i) == '/' || operacion().charAt(i) == '*' || operacion().charAt(i) == '-' || operacion().charAt(i) == '+')
 				esDecimal = false;
 		}
 		return esDecimal;
-		
 	}
-}	
+	
+	//Devuelve la cadena con la operacion
+	public String operacion() 
+	{
+		return resultado.getText();
+	}
+	
+	//Devuelve el largo de la operacion
+	public int largo() 
+	{
+		return resultado.getText().length();
+	}
+	
+	//Devuelve el ultimo caracter de la operacion
+	public char ultimoCaracter() 
+	{
+		return resultado.getText().charAt(largo() - 1);
+	}
+
+}		
