@@ -2,11 +2,13 @@ package logica;
 
 import java.util.ArrayList;
 
+import javax.management.RuntimeErrorException;
+
 public class Calculadora 
 {
 	private ArrayList<Double> numeros;
 	private ArrayList<String> signos;
-	private String numeroActual; //Numero que estara formando
+	
 	private double resultado;
 	
 	///////////////CONSTRUCTOR///////////////
@@ -15,127 +17,62 @@ public class Calculadora
 		numeros = new ArrayList<Double>();
 		signos = new ArrayList<String>();
 		resultado = 0;
-		numeroActual = "0";	
 	}
 	
-	
-	public void obtenerValor(String valor) 
+	public void obtenerNumero(double numero) 
 	{
-		if(!esValido(valor))
-			throw new IllegalArgumentException("La calculadora no puede operar con este valor - Lea la documentacion");
-		
-		if(valor.equals("C"))//RESETEAR
-			resetear(); 
-	
-		else if (valor.equals("<"))//BORRAR
-			borrarUltimoValor();
-									
-		else if(valor.equals("="))//CALCULAR 
-			calcular();		
-		
-		else if(valor.equals("-"))
-			agregarSignoMenos(valor);	
-		
-		
-		else if(valor.equals("+") || valor.equals("/") || valor.equals("*"))		
-			agregarOperador(valor);
-		
-		else if(valor.equals(".")) 
-			armarDecimal(valor);
+		if(numeros.size() > signos.size())                //Si no ingreso un signo despues de un numero, este ultimo es reemplazado por el nuevo
+			numeros.set(numeros.size() - 1, numero);
 		
 		else
-		{
-			if(resultado != 0)  //Vemos si por ultima vez se opero con el "="
-				resultado = 0;  
-			
-			numeroActual += valor;
-		
-		}
-		
-		System.out.println(numeroActual);
-	}
-
-
-	private void armarDecimal(String valor) 
-	{
-		if(!actualEsDecimal()) //Para que no se guarde varios puntos seguidos
-			numeroActual += ".";
+			numeros.add(numero);
 	}
 	
-	private boolean actualEsDecimal() 
+	public void obtenerOperador(String operador) 
 	{
-		return numeroActual.contains(".");
-	}
-
-	private boolean esValido(String valor) 
-	{
-		if(valor.length() > 1) //Por si ingreso un valor con mas de un caracter
-			return false;
+		if(!"+-*/".contains(operador))
+			throw new IllegalArgumentException("Este metodo solo opera con +, -, *, /");
 		
-		return "0123456789+-*/C<=.".contains(valor);
-	}
-	
-	private void resetear()
-	{	
-		numeroActual = "";
-		resultado = 0;
-		
-		numeros.clear();
-		
-		signos.clear();
-	}
-	
-	private void borrarUltimoValor() 
-	{
-		if(noHayDatos())
+		if(numeros.size() == 0)
 			return;
 		
-		if(actualEstaVacio())//Si no estaba formando un numero.
-		{
-			if(hayAlgunSigno()) 
-			{
-				signos.remove(cantSignos() - 1);								//Pasamos a borrar el ultimo signo ingresado
-				numeroActual = String.valueOf(numeros.get(numeros.size() -1));	//y ponemos en "edicion" al ultimo numero ingresado.			
-				numeros.remove(numeros.size() - 1);								//Sacamos ese ultimo numero del array.
-			}
-		}
+		if(ultimaVezSeIngresoSigno())
+			reemplazarUltimoSigno(operador);
+		
 		else
-			numeroActual = numeroActual.substring(0, numeroActual.length() - 1); 		//Borramos el ultimo caracter del numero en "edicion".
-		
-		System.out.println(numeroActual);
+			signos.add(operador);
 	}
-
-	private void calcular() 
+	
+	public void calcular() 
 	{
-		if(noHayDatos())//Si no se agrego ningun numero y no se estuvo formando uno retornamos.
-			return;
+		if(numeros.size() == 0)
+			throw new RuntimeErrorException(null, "No hay numeros guardados para calcular");
 		
-		if(numeros.size() == 0 && !actualEstaVacio() )//Si no se agrego ningun numero y se estuvo formando uno agregamos este ultimo.
-		{	
-			
-			if(!actualEsInvalido())
-				resultado = Double.parseDouble(numeroActual);
-			
-			numeroActual = "";
-			System.out.println(resultado);
-		}
+		if(numeros.size() == signos.size()) 
+			borrarUltimoSigno();
 		
-		if(!actualEstaVacio() && !actualEsInvalido()) //Chequeamos que se estuviera formando un numero antes de agregarlo.
+		resolverOperadoresPrimarios();
+				
+		//Resolvemos operadores + y -
+		resultado = numeros.get(0);
+		numeros.remove(0);		
+		
+		while(numeros.size() != 0) 
 		{
-			numeros.add(Double.parseDouble(numeroActual));
-			numeroActual = "";
+			if(signos.get(0).equals("+")) 
+				resultado += numeros.get(0);
+				
+			if(signos.get(0).equals("-"))
+				resultado -= numeros.get(0);
+			
+			numeros.remove(0);
+			signos.remove(0);
 		}
 		
-		if(hayAlgunSigno())
-			operar();
 	}
 
-	private void operar() 
-	{
-		if(signos.size() == numeros.size())//Sacamos el ultimo signo por si ingresan una cantidad de signos igual al de numeros para evitar errores de calculos en el futuro
-			signos.remove(signos.size() - 1);
-		
-		//Resolvemos operadores primarios * y /
+	//Calcula primero las multiplicacion y divisiones
+	private void resolverOperadoresPrimarios() {
 		for(int i=0; i < signos.size(); i++)
 		{			
 			if(signos.get(i).equals("*")) 
@@ -154,122 +91,57 @@ public class Calculadora
 				i--;
 			}	
 		}
-		
-		//Resolvemos operadores + y -
-		resultado = numeros.get(0);
-		numeros.remove(0);		
-		
-		while(numeros.size() != 0) 
-		{
-			if(signos.get(0).equals("+")) 
-				sumar(numeros.get(0));
-				
-			if(signos.get(0).equals("-"))
-				restar(numeros.get(0));
-			
-			numeros.remove(0);
-			signos.remove(0);
-		}
-		
-	}
-		
-	private void sumar( double num)
-	{
-		resultado += num;
 	}
 	
-	private void restar(double num)
+	public void reset() 
 	{
-		resultado -= num;
+		resultado = 0;
+		
+		numeros.clear();
+		
+		signos.clear();
 	}
 	
-	private void agregarSignoMenos(String valor) 
+	public void borrar()
 	{
-		if(noHayDatos()) 				//Numero Negativo al comienzo
-			numeroActual = valor;
+		if(numeros.size() == 0)
+			return;
+		
+		if(numeros.size() == signos.size()) 
+			borrarUltimoSigno();
 		
 		else
-		{
-			if(resultado != 0) 		 //Vemos si por ultima vez se opero con el "=" 
-			{
-				numeros.add(resultado);
-				resultado = 0 ;
-			}
-			
-			if(hayAlgunSigno()) 
-			{
-				if(actualEstaVacio() && (ultimoSigno().equals("*") || ultimoSigno().equals("/") || ultimoSigno().equals("+")))
-				{
-					if(!actualEsInvalido())
-						numeroActual += valor;
-					
-					System.out.println(numeroActual);
-				}
-				else
-					if(!actualEsInvalido())
-						guardarDatos(valor);
-			}
-			else
-			{
-				if(!actualEsInvalido())
-					guardarDatos(valor);
+			borrarDigitoUltimoNumero();
+		
+	}
+	
+	private void borrarDigitoUltimoNumero() 
+	{
+		String ultimoNumero;
+		
+		if(ultimoNumero() % 1 == 0) //Chequeamos que sea entero para no que no borre el .0 
+			ultimoNumero = String.valueOf((int) ultimoNumero());
+		else
+			ultimoNumero = String.valueOf(ultimoNumero());
+		
+		if(!ultimoNumero.substring(0, ultimoNumero.length() - 1).equals(""))
+			numeros.set(numeros.size() - 1, Double.parseDouble(ultimoNumero.substring(0, ultimoNumero.length() - 1)));
 				
-			}
-		}
+		else
+			numeros.remove(numeros.size() - 1);
 	}
 	
-	private void agregarOperador(String valor) 
+	private void borrarUltimoSigno() 
 	{
-		if(resultado != 0)    //Vemos si por ultima vez se opero con el "="
-		{
-			numeros.add(resultado);
-			resultado = 0 ;
-		}
-		
-		if(actualEstaVacio() && hayAlgunSigno()) //Si esta vacio quiere decir que por ultima vez se agrego un signo
-			reemplazarUltimoSigno(valor);			//Entonces reemplazamos ese ultimo signo por el nuevo	
-		else 
-		{
-			if(!actualEsInvalido())
-				guardarDatos(valor);	
-			
-			else
-				numeroActual = "";
-		}
+		if(hayAlgunSigno())
+			signos.remove(signos.size() - 1);
+	}
+	
+	private double ultimoNumero() 
+	{
+		return numeros.get(numeros.size() - 1);
 	}
 
-	private void guardarDatos(String valor) 
-	{
-		signos.add(valor);
-	
-		if(!numeroActual.equals(""))
-			numeros.add(Double.parseDouble(numeroActual));
-		
-		numeroActual = "";
-	}
-	
-	private void reemplazarUltimoSigno(String valor) 
-	{
-		signos.set(cantSignos() - 1, valor);
-	}
-	
-	public boolean noHayDatos() 
-	{
-		if(numeroActual.equals("0") && numeros.size() == 0 && cantSignos() == 0 && resultado == 0)
-			return true;
-		return false;
-	}
-	
-	private boolean actualEsInvalido() 
-	{
-		return numeroActual.equals("-") || numeroActual.equals(".");
-	}
-
-	private boolean actualEstaVacio()
-	{
-		return numeroActual.equals("");
-	}
-	
 	private boolean hayAlgunSigno() 
 	{
 		return cantSignos() > 0;
@@ -279,24 +151,20 @@ public class Calculadora
 	{
 		return signos.size();
 	}
-
-	private String ultimoSigno()
+	
+	private boolean ultimaVezSeIngresoSigno() 
 	{
-		return signos.get(cantSignos() -1);
+		return signos.size() == numeros.size();
+	}
+	
+	private void reemplazarUltimoSigno(String operador) 
+	{
+		signos.add(signos.set(signos.size() - 1, operador));
 	}
 	
 	public float getResultado() 
 	{
 		return (float) resultado;
-	}
-
-	public String getNumeroActual() 
-	{
-		return numeroActual;
 	}	
-	
-	public String getUltimoSigno()
-	{
-		return signos.get(signos.size() - 1);
-	}
+
 }
