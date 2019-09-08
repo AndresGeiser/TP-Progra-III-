@@ -312,19 +312,24 @@ public class GuiCalculadora
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				calculadora.obtenerValor(boton_Punto.getText());
+				
 				if(!sePresionoIgual)
 				{
 					if(!ultimoEsSigno() && !ultimoNumeroEsDecimal()) //No permite que el numero contenga mas de un signo seguido
 					{	
-						calculadora.obtenerValor(boton_Punto.getText());				
-						
+									
 						resultado.setText(operacion() + boton_Punto.getText());
 						seguimiento.setText(seguimiento.getText() + boton_Punto.getText());
+					}
+					else 
+					{
+						resultado.setText(operacion() + "0" +boton_Punto.getText());
+						seguimiento.setText(seguimiento.getText() + "0" + boton_Punto.getText());
 					}
 				}
 				else
 				{
-					calculadora.obtenerValor(boton_Punto.getText());
 					resultado.setText("0" + boton_Punto.getText());
 					sePresionoIgual = false;
 				}
@@ -662,16 +667,13 @@ public class GuiCalculadora
 	//Coloca el signo recibido al final
 	private void agregarOperador(String operador) 
 	{
-		if(hayPrimerNumero()) 
+		if(ultimoEsSigno())
+			reemplazarSigno(operador);
+		else 
 		{
-			if(ultimoEsSigno())
-				reemplazarSigno(operador);
-			else 
-			{
-				resultado.setText(operacion() + operador);
-				seguimiento.setText(seguimiento.getText() + operador);	
-			}
-		}
+			resultado.setText(operacion() + operador);
+			seguimiento.setText(seguimiento.getText() + operador);	
+		}	
 	}
 	
 	//Dice si el ultimo numero de la cadena es un decimal
@@ -708,4 +710,4 @@ public class GuiCalculadora
 		return resultado.getText().charAt(largo() - 1);
 	}
 
-}		
+}				
