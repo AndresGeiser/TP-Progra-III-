@@ -1,44 +1,100 @@
 package logica;
 
 import static org.junit.Assert.*;
-
+import org.junit.Before;
 import org.junit.Test;
 
+public class CalculadoraTest 
+{	
+	Calculadora calculadora;
 
-public class CalculadoraTest {
-
-	@Test
-	public void testObtenerValor() 
+	@Before
+	public void iniCalculadora() 
 	{
-		Calculadora calculadora = new Calculadora();
-		
+		calculadora = new Calculadora();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void valorInvalido()
+	{
+		calculadora.obtenerValor("k");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void valorConMasDeUnCaracter() 
+	{
+		calculadora.obtenerValor("1312");
+	}
+	
+	@Test
+	public void unSoloNumero() 
+	{	
 		calculadora.obtenerValor("3");
-		calculadora.obtenerValor("3");
+		calculadora.obtenerValor("4");
+		calculadora.obtenerValor("6");
+		calculadora.obtenerValor("=");
 		
-		assertEquals("33",calculadora.getNumeroActual());
+		assertTrue(346 == calculadora.getResultado());
+	}
+	
+	@Test
+	public void unSoloNumeroDecimal() 
+	{
+		calculadora.obtenerValor(".");
+		calculadora.obtenerValor("4");
+		calculadora.obtenerValor("6");
+		calculadora.obtenerValor("=");
+		
+		assertTrue(0.46 == calculadora.getResultado());
+	}
+	
+	@Test
+	public void unSoloNumeroNegativo() 
+	{
+		calculadora.obtenerValor("-");
+		calculadora.obtenerValor("9");
+		calculadora.obtenerValor("9");
+		calculadora.obtenerValor("=");
+		
+		assertTrue(-99 == calculadora.getResultado());
 	}
 	
 	@Test
 	public void sumar()
 	{
-		Calculadora calculadora = new Calculadora();
-		
-		calculadora.obtenerValor("33");
+		calculadora.obtenerValor("3");
+		calculadora.obtenerValor("4");
 		calculadora.obtenerValor("+");
 		calculadora.obtenerValor("2");
 		calculadora.obtenerValor("=");
 
-		assertTrue(35 == calculadora.getResultado());
+		assertTrue(36 == calculadora.getResultado());
+	}
+	
+	@Test
+	public void sumaConNegativoAdelante() 
+	{
+		calculadora.obtenerValor("-");
+		calculadora.obtenerValor("4");
+		calculadora.obtenerValor("6");
+		calculadora.obtenerValor("+");
+		calculadora.obtenerValor("4");
+		calculadora.obtenerValor("0");
+		calculadora.obtenerValor("=");
+	
+		assertTrue(-6 == calculadora.getResultado());
 	}
 	
 	@Test 
 	public void sumarDecimales()
 	{
-		Calculadora calculadora = new Calculadora();
-		
-		calculadora.obtenerValor("2.5");
+		calculadora.obtenerValor("2");
+		calculadora.obtenerValor(".");
+		calculadora.obtenerValor("5");
 		calculadora.obtenerValor("+");
-		calculadora.obtenerValor("2.2");
+		calculadora.obtenerValor("2");
+		calculadora.obtenerValor(".");
+		calculadora.obtenerValor("2");
 		calculadora.obtenerValor("=");
 		
 		assertTrue((float)4.7 == calculadora.getResultado());
@@ -47,8 +103,6 @@ public class CalculadoraTest {
 	@Test
 	public void restar()
 	{
-		Calculadora calculadora = new Calculadora();
-		
 		calculadora.obtenerValor("3");
 		calculadora.obtenerValor("-");
 		calculadora.obtenerValor("2");
@@ -60,8 +114,6 @@ public class CalculadoraTest {
 	@Test
 	public void restarDecimales()
 	{
-		Calculadora calculadora = new Calculadora();
-		
 		calculadora.obtenerValor("0.5");
 		calculadora.obtenerValor("-");
 		calculadora.obtenerValor("0.4");
@@ -74,7 +126,6 @@ public class CalculadoraTest {
 	@Test
 	public void restaNegativos()
 	{
-		Calculadora calculadora = new Calculadora();
 		calculadora.obtenerValor("-5");
 		calculadora.obtenerValor("+");
 		calculadora.obtenerValor("-3");
@@ -86,8 +137,6 @@ public class CalculadoraTest {
 	@Test
 	public void multiplicar()
 	{
-		Calculadora calculadora = new Calculadora();
-		
 		calculadora.obtenerValor("2");
 		calculadora.obtenerValor("*");
 		calculadora.obtenerValor("5");
@@ -99,8 +148,6 @@ public class CalculadoraTest {
 	@Test
 	public void multiplicarDecimales()
 	{
-		Calculadora calculadora = new Calculadora();
-		
 		calculadora.obtenerValor("2.5");
 		calculadora.obtenerValor("*");
 		calculadora.obtenerValor("2.5");
@@ -112,8 +159,6 @@ public class CalculadoraTest {
 	@Test
 	public void ordenDeOperaciones()
 	{
-		Calculadora calculadora = new Calculadora();
-		
 		calculadora.obtenerValor("3");
 		calculadora.obtenerValor("+");
 		
@@ -128,9 +173,7 @@ public class CalculadoraTest {
 	
 	@Test
 	public void dividir()
-	{
-		Calculadora calculadora = new Calculadora();
-		
+	{	
 		calculadora.obtenerValor("16");
 		calculadora.obtenerValor("/");
 		calculadora.obtenerValor("2");
@@ -141,9 +184,7 @@ public class CalculadoraTest {
 	 
 	@Test
 	public void borrarNumero()
-	{
-		Calculadora calculadora = new Calculadora();
-		
+	{	
 		calculadora.obtenerValor("255");
 		calculadora.obtenerValor("<");
 		
@@ -153,8 +194,6 @@ public class CalculadoraTest {
 	@Test
 	public void borrarSigno()
 	{
-		Calculadora calculadora = new Calculadora();
-		
 		calculadora.obtenerValor("5");
 		calculadora.obtenerValor("-");
 		calculadora.obtenerValor("<");
@@ -166,8 +205,6 @@ public class CalculadoraTest {
 	@Test
 	public void simplificar()
 	{
-		Calculadora calculadora = new Calculadora();
-		
 		calculadora.obtenerValor("0");
 		calculadora.obtenerValor(".");
 		calculadora.obtenerValor("=");
@@ -179,8 +216,6 @@ public class CalculadoraTest {
 	@Test
 	public void simplificarPunto()
 	{
-		Calculadora calculadora = new Calculadora();
-		
 		calculadora.obtenerValor(".");
 		calculadora.obtenerValor("=");
 		
@@ -190,8 +225,6 @@ public class CalculadoraTest {
 	@Test
 	public void resetear()
 	{
-		Calculadora calculadora = new Calculadora();
-		
 		calculadora.obtenerValor("123");
 		calculadora.obtenerValor("C");
 		
@@ -201,8 +234,6 @@ public class CalculadoraTest {
 	@Test
 	public void cambiarUltimoSigno()
 	{
-		Calculadora calculadora = new Calculadora();
-		
 		calculadora.obtenerValor("3");
 		calculadora.obtenerValor("+");
 		calculadora.obtenerValor("-");
