@@ -46,7 +46,7 @@ public class Calculadora
 	public void calcular() 
 	{
 		if(numeros.size() == 0)
-			throw new RuntimeErrorException(null, "No hay numeros guardados para calcular");
+			throw new IllegalArgumentException("No hay numeros guardados para calcular");
 		
 		if(numeros.size() == signos.size()) 
 			borrarUltimoSigno();
@@ -159,12 +159,17 @@ public class Calculadora
 	
 	private void reemplazarUltimoSigno(String operador) 
 	{
-		signos.add(signos.set(signos.size() - 1, operador));
+		signos.set(signos.size() - 1, operador);
 	}
 	
 	public float getResultado() 
 	{
 		return (float) resultado;
+	}
+
+	public String getUltimoSigno() 
+	{
+		return signos.get(signos.size() - 1);
 	}	
 
 }
