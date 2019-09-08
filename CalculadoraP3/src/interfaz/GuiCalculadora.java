@@ -82,7 +82,7 @@ public class GuiCalculadora
 							numeroActual += boton_0.getText();
 							agregar(boton_0.getText());
 						}
-						else if(ultimoNumeroEsDecimal()) 
+						else 
 						{
 							numeroActual += boton_0.getText();
 							agregar(boton_0.getText());
