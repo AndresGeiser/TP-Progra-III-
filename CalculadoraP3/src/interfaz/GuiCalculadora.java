@@ -17,7 +17,6 @@ public class GuiCalculadora
 {
 	private JFrame frmCalculadora;
 	private JTextField resultado;
-	private JTextField seguimiento;
 	
 	private JButton boton_0, boton_1, boton_2, boton_3, boton_4, boton_5, boton_6, boton_7, boton_8,boton_9, boton_Punto,
 					boton_Sum, boton_Rest, boton_Mult, boton_Div, boton_Igual, boton_Borrar, boton_Reset;
@@ -56,7 +55,7 @@ public class GuiCalculadora
 	{
 		//Inicializacion
 		calculadora = new Calculadora();
-		numeroActual = "0";
+		numeroActual = "";
 		sePresionoIgual = false;
 		
 		colorNum = new Color(38, 38, 38);
@@ -77,12 +76,13 @@ public class GuiCalculadora
 				{
 					if(!resultado.getText().equals("0")) 
 					{
-						if(ultimoEsSigno() || ultimoCaracter() == '.') 
+						if(!ultimoNumero().equals("0")) 
 						{
 							numeroActual += boton_0.getText();
 							agregar(boton_0.getText());
 						}
-						else 
+						
+						else if(ultimoNumeroEsDecimal()) 
 						{
 							numeroActual += boton_0.getText();
 							agregar(boton_0.getText());
@@ -248,15 +248,9 @@ public class GuiCalculadora
 						}	
 					}
 				}
-				else 
-				{
-					calculadora.obtenerNumero(calculadora.getResultado());
-					calculadora.obtenerOperador(boton_Rest.getText());
-					
-					agregar(boton_Rest.getText());
-					
-					sePresionoIgual = false;
-				}
+				else
+					operarConUltimoResultado(boton_Rest.getText());
+				
 			}
 		});
 		
@@ -301,10 +295,9 @@ public class GuiCalculadora
 		{
 			public void actionPerformed(ActionEvent e) 
 			{	
-				if(!sePresionoIgual) 
-				{
+				if(!sePresionoIgual)
 					borrarUltimoValor();
-				}
+				
 			}
 		});
 		
@@ -313,7 +306,7 @@ public class GuiCalculadora
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(ultimoCaracter() == '*' || ultimoCaracter() == '/' || ultimoCaracter() == '+' || ultimoCaracter() == '-')
+				if(ultimoEsSigno())
 				{
 					numeroActual = "0.";
 					agregar(numeroActual);
@@ -325,65 +318,6 @@ public class GuiCalculadora
 				}
 			}
 		});
-		
-		
-	}
-	
-	protected void agregarOperador(String operador) 
-	{
-		if(!"+/*".contains(operador))
-			throw new IllegalArgumentException("Este metodo solo agrega el +, * o / .");
-		
-		if(!sePresionoIgual)
-		{
-			if(ultimoCaracter() == '-') 
-			{
-				if(numeroActual.equals("-")) 
-				{
-					numeroActual = "";
-					borrarUltimoValor();
-				}
-				else
-				{
-					calculadora.obtenerOperador(operador);
-					reemplazarUltimoValor(operador);
-				}
-					
-			}
-		
-			else if(ultimoEsSigno())
-			{
-				calculadora.obtenerOperador(operador);
-				reemplazarUltimoValor(operador);
-			}
-			
-			else if(ultimoCaracter() == '.') 
-			{
-				calculadora.obtenerNumero(Double.parseDouble(numeroActual));
-				calculadora.obtenerOperador(operador);
-				
-				reemplazarUltimoValor(operador);
-			}
-			
-			else
-			{
-				calculadora.obtenerNumero(Double.parseDouble(numeroActual));
-				calculadora.obtenerOperador(operador);
-				numeroActual = "";
-	
-				agregar(operador);
-			}
-		}
-		else //Operamos con el ultimo resultado
-		{
-			calculadora.obtenerNumero(calculadora.getResultado());
-			calculadora.obtenerOperador(operador);
-			
-			agregar(operador);
-			
-			sePresionoIgual = false;
-		}
-		
 	}
 
 	//INICIALIZACION DE BOTONES
@@ -395,7 +329,7 @@ public class GuiCalculadora
 		frmCalculadora.getContentPane().setBackground(Color.BLACK);
 		frmCalculadora.setBackground(Color.WHITE);
 		frmCalculadora.setTitle("Calculadora");
-		frmCalculadora.setBounds(100, 100, 336, 380);
+		frmCalculadora.setBounds(100, 100, 336, 339);
 		frmCalculadora.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCalculadora.getContentPane().setLayout(null);
 		frmCalculadora.getContentPane().setBackground(new Color (13,13,13));
@@ -409,14 +343,6 @@ public class GuiCalculadora
 		resultado.setBounds(10, 11, 312, 54);
 		frmCalculadora.getContentPane().add(resultado);
 		resultado.setColumns(10);
-
-		seguimiento = new JTextField("0");
-		seguimiento.setEditable(false);
-		seguimiento.setFont(new Font("Tw Cen MT", Font.PLAIN, 15));
-		seguimiento.setBackground(new Color(166, 166, 166));
-		seguimiento.setBounds(10, 321, 312, 23);
-		frmCalculadora.getContentPane().add(seguimiento);
-		seguimiento.setColumns(10);
 	}
 
 	private void inicializarBotonesNum() 
@@ -625,6 +551,67 @@ public class GuiCalculadora
 	
 	//METODOS AUXILIARES
 	
+	protected void agregarOperador(String operador) 
+	{
+		if(!"+/*".contains(operador))
+			throw new IllegalArgumentException("Este metodo solo agrega el +, * o / .");
+		
+		if(!sePresionoIgual)
+		{
+			if(ultimoCaracter() == '-') 
+			{
+				if(numeroActual.equals("-")) 
+				{
+					numeroActual = "";
+					borrarUltimoValor();
+				}
+				else
+				{
+					calculadora.obtenerOperador(operador);
+					reemplazarUltimoValor(operador);
+				}
+					
+			}
+		
+			else if(ultimoEsSigno())
+			{
+				calculadora.obtenerOperador(operador);
+				reemplazarUltimoValor(operador);
+			}
+			
+			else if(ultimoCaracter() == '.') 
+			{
+				calculadora.obtenerNumero(Double.parseDouble(numeroActual));
+				calculadora.obtenerOperador(operador);
+				
+				reemplazarUltimoValor(operador);
+			}
+			
+			else
+			{
+				if(!numeroActual.equals(""))
+					calculadora.obtenerNumero(Double.parseDouble(numeroActual));
+				
+				calculadora.obtenerOperador(operador);
+				numeroActual = "";
+	
+				agregar(operador);
+			}
+		}
+		else 
+			operarConUltimoResultado(operador);
+		
+		
+	}
+	
+	private void operarConUltimoResultado(String operador) 
+	{
+		calculadora.obtenerNumero(calculadora.getResultado());
+		calculadora.obtenerOperador(operador);
+		agregar(operador);
+		sePresionoIgual = false;
+	}
+	
 	//Agregar solo para numeros de 1 al 9
 	private void agregarNum(String numero) 
 	{
@@ -652,16 +639,16 @@ public class GuiCalculadora
 		}	
 	}
 	
-	//Agregar en general
+	//Agregar un string al final 
 	private void agregar(String text) 
 	{
-		resultado.setText(resultado.getText() + text);
+		resultado.setText(operacion() + text);
 	}
 	
-	//Cambia el ultimo caracter de la cadena por el parametro 
+	//Reemplaza el ultimo caracter de la cadena por el string pasado como parametro
 	private void reemplazarUltimoValor(String text) 
 	{
-		resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1) + text);
+		resultado.setText(operacion().substring(0, largo() - 1) + text);
 	}
 	
 	//Borra el ultimo caracter de la cadena
@@ -670,18 +657,24 @@ public class GuiCalculadora
 		if(resultado.getText().length() == 1)
 			resultado.setText("0");
 		
+		else if(numeroActual.equals("-")) 
+		{
+			numeroActual = "";
+			reemplazarUltimoValor("");
+		}
+		
 		else if(!numeroActual.equals("")) 
 		{
 			calculadora.obtenerNumero(Double.parseDouble(numeroActual));
 			calculadora.borrar();
 			numeroActual = numeroActual.substring(0, numeroActual.length() - 1);
-			resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1));
-			
+			reemplazarUltimoValor("");	
 		}
+		
 		else if(ultimoEsSigno()) 
 		{
 			calculadora.borrar();
-			resultado.setText(resultado.getText().substring(0, resultado.getText().length() - 1));
+			reemplazarUltimoValor("");
 			numeroActual = ultimoNumero();
 		}
 		
@@ -692,14 +685,13 @@ public class GuiCalculadora
 	{
 		String ultimoNumero = "";
 		
-		for(int i=0; i < resultado.getText().length(); i++) 
+		for(int i=0; i < largo(); i++) 
 		{
-			if("+-*/".contains(Character.toString(resultado.getText().charAt(i)))) 
-			{
+			if("+-*/".contains(Character.toString(operacion().charAt(i))))
 				ultimoNumero = "";
-			}
+	
 			else
-				ultimoNumero += resultado.getText().charAt(i);
+				ultimoNumero += operacion().charAt(i);
 		}
 		
 		return ultimoNumero;
@@ -761,4 +753,4 @@ public class GuiCalculadora
 		return resultado.getText().charAt(largo() - 1);
 	}
 
-}	
+}		
