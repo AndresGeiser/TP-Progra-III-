@@ -2,7 +2,6 @@ package logica;
 
 import java.util.ArrayList;
 
-import javax.management.RuntimeErrorException;
 
 public class Calculadora 
 {
@@ -46,7 +45,7 @@ public class Calculadora
 	public void calcular() 
 	{
 		if(numeros.size() == 0)
-			throw new IllegalArgumentException("No hay numeros guardados para calcular");
+			throw new RuntimeException("No hay numeros guardados para calcular");
 		
 		if(numeros.size() == signos.size()) 
 			borrarUltimoSigno();
