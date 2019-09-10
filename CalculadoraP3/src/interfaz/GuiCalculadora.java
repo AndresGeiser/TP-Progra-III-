@@ -236,6 +236,7 @@ public class GuiCalculadora
 						{
 							calculadora.obtenerNumero(Double.parseDouble(numeroActual));
 							calculadora.obtenerOperador(boton_Rest.getText());
+							numeroActual = "";
 							
 							reemplazarUltimoValor(boton_Rest.getText());;
 						}
@@ -580,6 +581,8 @@ public class GuiCalculadora
 			{
 				calculadora.obtenerNumero(Double.parseDouble(numeroActual));
 				calculadora.obtenerOperador(operador);
+				
+				numeroActual = "";
 				
 				reemplazarUltimoValor(operador);
 			}
