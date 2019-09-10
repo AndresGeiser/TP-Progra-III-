@@ -561,10 +561,7 @@ public class GuiCalculadora
 			if(ultimoCaracter() == '-') 
 			{
 				if(numeroActual.equals("-")) 
-				{
-					numeroActual = "";
 					borrarUltimoValor();
-				}
 				else
 				{
 					calculadora.obtenerOperador(operador);
