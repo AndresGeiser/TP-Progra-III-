@@ -14,7 +14,7 @@ public class CalculadoraTest
 		calculadora = new Calculadora();
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = RuntimeException.class)
 	public void calcularSinNumeros() 
 	{
 		calculadora.calcular();
@@ -133,7 +133,7 @@ public class CalculadoraTest
 		assertTrue(6 == calculadora.getResultado());
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = RuntimeException.class)
 	public void resetear()
 	{
 		calculadora.obtenerNumero(45);
@@ -160,3 +160,4 @@ public class CalculadoraTest
 	}
 
 }
+	
