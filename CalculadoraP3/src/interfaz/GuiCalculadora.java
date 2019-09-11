@@ -55,7 +55,7 @@ public class GuiCalculadora
 	{
 		//Inicializacion
 		calculadora = new Calculadora();
-		numeroActual = "";
+		numeroActual = "0";
 		sePresionoIgual = false;
 		
 		colorNum = new Color(38, 38, 38);
