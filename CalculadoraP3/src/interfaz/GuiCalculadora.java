@@ -100,113 +100,15 @@ public class GuiCalculadora
 		});
 		
 		
-		boton_1.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{	
-				agregarNum(boton_1.getText());
-			}
-		});
-		
-		
-		boton_2.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				agregarNum(boton_2.getText());
-			}
-		});
-		
-		
-		boton_3.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				agregarNum(boton_3.getText());
-			}
-		});
-		
-		
-		boton_4.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				agregarNum(boton_4.getText());
-			}
-		});
-		
-		
-		boton_5.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				agregarNum(boton_5.getText());
-			}
-		});
-		
-		
-		boton_6.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				agregarNum(boton_6.getText());
-			}
-		});
-		
-		
-		boton_7.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				agregarNum(boton_7.getText());
-			}
-		});
-		
-		
-		boton_8.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				agregarNum(boton_8.getText());
-			}
-		});
-		
-		
-		boton_9.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				agregarNum(boton_9.getText());
-			}
-		});		
-		
-		
-		boton_Mult.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				agregarOperador(boton_Mult.getText());
-			}
-		});	
-		
-		
-		boton_Sum.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				agregarOperador(boton_Sum.getText());
-			}
-		});
-				
-		
-		boton_Div.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				agregarOperador(boton_Div.getText());
-			}
-		});
-		
+		agregarNum1A9(boton_1);
+		agregarNum1A9(boton_2);
+		agregarNum1A9(boton_3);
+		agregarNum1A9(boton_4);
+		agregarNum1A9(boton_5);
+		agregarNum1A9(boton_6);
+		agregarNum1A9(boton_7);
+		agregarNum1A9(boton_8);
+		agregarNum1A9(boton_9);			
 		
 		boton_Rest.addActionListener(new ActionListener()
 		{
@@ -255,6 +157,9 @@ public class GuiCalculadora
 			}
 		});
 		
+		agregarOperador(boton_Mult);
+		agregarOperador(boton_Sum);
+		agregarOperador(boton_Div);
 		
 		boton_Igual.addActionListener(new ActionListener() 
 		{
@@ -550,93 +455,99 @@ public class GuiCalculadora
 		});
 	}
 	
-	//METODOS AUXILIARES
-	
-	protected void agregarOperador(String operador) 
+	////////////////Metodos ActionListener//////////////
+	private void agregarOperador(JButton operador) 
 	{
-		if(!"+/*".contains(operador))
-			throw new IllegalArgumentException("Este metodo solo agrega el +, * o / .");
-		
-		if(!sePresionoIgual)
+		operador.addActionListener(new ActionListener() 
 		{
-			if(ultimoCaracter() == '-') 
+			public void actionPerformed(ActionEvent e) 
 			{
-				if(numeroActual.equals("-")) 
-					borrarUltimoValor();
-				else
+				if(!sePresionoIgual)
 				{
-					calculadora.obtenerOperador(operador);
-					reemplazarUltimoValor(operador);
-				}
+					if(ultimoCaracter() == '-') 
+					{
+						if(numeroActual.equals("-")) 
+							borrarUltimoValor();
+						else
+						{
+							calculadora.obtenerOperador(operador.getText());
+							reemplazarUltimoValor(operador.getText());
+						}
+							
+					}
+				
+					else if(ultimoEsSigno())
+					{
+						calculadora.obtenerOperador(operador.getText());
+						reemplazarUltimoValor(operador.getText());
+					}
 					
-			}
-		
-			else if(ultimoEsSigno())
-			{
-				calculadora.obtenerOperador(operador);
-				reemplazarUltimoValor(operador);
-			}
+					else if(ultimoCaracter() == '.') 
+					{
+						calculadora.obtenerNumero(Double.parseDouble(numeroActual));
+						calculadora.obtenerOperador(operador.getText());
+						
+						numeroActual = "";
+						
+						reemplazarUltimoValor(operador.getText());
+					}
+					
+					else
+					{
+						if(!numeroActual.equals(""))
+							calculadora.obtenerNumero(Double.parseDouble(numeroActual));
+						
+						calculadora.obtenerOperador(operador.getText());
+						numeroActual = "";
 			
-			else if(ultimoCaracter() == '.') 
-			{
-				calculadora.obtenerNumero(Double.parseDouble(numeroActual));
-				calculadora.obtenerOperador(operador);
-				
-				numeroActual = "";
-				
-				reemplazarUltimoValor(operador);
+						agregar(operador.getText());
+					}
+				}
+				else 
+					operarConUltimoResultado(operador.getText());
 			}
-			
-			else
-			{
-				if(!numeroActual.equals(""))
-					calculadora.obtenerNumero(Double.parseDouble(numeroActual));
-				
-				calculadora.obtenerOperador(operador);
-				numeroActual = "";
-	
-				agregar(operador);
-			}
-		}
-		else 
-			operarConUltimoResultado(operador);
-		
-		
+		});
 	}
 	
+	private void agregarNum1A9(JButton numero) 
+	{
+		numero.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{	
+				if(!sePresionoIgual) 
+				{
+					if(resultado.getText().equals("0") || numeroActual.equals("0"))
+					{
+						reemplazarUltimoValor(numero.getText());
+						numeroActual = numero.getText();
+					}
+					else 
+					{
+						agregar(numero.getText());
+						numeroActual += numero.getText();
+					}
+				}
+				else 
+				{
+					resultado.setText(numero.getText());
+					numeroActual = numero.getText();
+					sePresionoIgual = false;
+				}	
+			}
+		});
+	}
+	////////////////////////////////////////////////////
+	
+	//METODOS AUXILIARES
+	
+
 	private void operarConUltimoResultado(String operador) 
 	{
 		calculadora.obtenerNumero(calculadora.getResultado());
 		calculadora.obtenerOperador(operador);
 		agregar(operador);
 		sePresionoIgual = false;
-	}
-	
-	//Agregar solo para numeros de 1 al 9
-	private void agregarNum(String numero) 
-	{
-		if(!"123456789".contains(numero))
-			throw new IllegalArgumentException("Este agregar solo es para numeros del 1 al 9");
-			
-		if(!sePresionoIgual) 
-		{
-			if(resultado.getText().equals("0") || numeroActual.equals("0"))
-			{
-				reemplazarUltimoValor(numero);
-				numeroActual = numero;
-			}
-			else 
-			{
-				agregar(numero);
-				numeroActual += numero;
-			}
-		}
-		else 
-		{
-			resultado.setText(numero);
-			numeroActual = numero;
-			sePresionoIgual = false;
-		}	
 	}
 	
 	//Agregar un string al final 
