@@ -2,12 +2,10 @@ package logica;
 
 import java.util.ArrayList;
 
-
 public class Calculadora 
 {
 	private ArrayList<Double> numeros;
 	private ArrayList<String> signos;
-	
 	private double resultado;
 	
 	///////////////CONSTRUCTOR///////////////
@@ -20,7 +18,7 @@ public class Calculadora
 	
 	public void obtenerNumero(double numero) 
 	{
-		if(numeros.size() > signos.size())                //Si no ingreso un signo despues de un numero, este ultimo es reemplazado por el nuevo
+		if(numeros.size() > signos.size())      //Si por ultima vez no se ingreso un signo
 			numeros.set(numeros.size() - 1, numero);
 		
 		else
@@ -47,7 +45,7 @@ public class Calculadora
 		if(numeros.size() == 0)
 			throw new RuntimeException("No hay numeros guardados para calcular");
 		
-		if(numeros.size() == signos.size()) 
+		if(ultimaVezSeIngresoSigno()) 
 			borrarUltimoSigno();
 		
 		resolverOperadoresPrimarios();
@@ -66,12 +64,12 @@ public class Calculadora
 			
 			numeros.remove(0);
 			signos.remove(0);
-		}
-		
+		}	
 	}
 
 	//Calcula primero las multiplicacion y divisiones
-	private void resolverOperadoresPrimarios() {
+	private void resolverOperadoresPrimarios() 
+	{
 		for(int i=0; i < signos.size(); i++)
 		{			
 			if(signos.get(i).equals("*")) 
@@ -106,7 +104,7 @@ public class Calculadora
 		if(numeros.size() == 0)
 			return;
 		
-		if(numeros.size() == signos.size()) 
+		if(ultimaVezSeIngresoSigno()) 
 			borrarUltimoSigno();
 		
 		else
@@ -123,7 +121,7 @@ public class Calculadora
 		else
 			ultimoNumero = String.valueOf(ultimoNumero());
 		
-		if(ultimoNumero.length() == 1)
+		if(ultimoNumero.length() == 1) //Nos fijamos si el numero es de un digito 
 			numeros.remove(numeros.size() - 1);
 		else
 			numeros.set(numeros.size() - 1, Double.parseDouble(ultimoNumero.substring(0, ultimoNumero.length() - 1)));
@@ -164,10 +162,5 @@ public class Calculadora
 	{
 		return (float) resultado;
 	}
-
-	public String getUltimoSigno() 
-	{
-		return signos.get(signos.size() - 1);
-	}	
 
 }

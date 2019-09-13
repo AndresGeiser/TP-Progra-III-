@@ -600,7 +600,8 @@ public class GuiCalculadora
 		boton_Mult.setFocusable(false);
 		frmCalculadora.getContentPane().add(boton_Mult);
 		
-		boton_Borrar = new JButton("<");
+		boton_Borrar = new JButton("");
+		boton_Borrar.setIcon(new ImageIcon(GuiCalculadora.class.getResource("/interfaz/flechaBorrar.png")));
 		boton_Borrar.setBounds(264, 256, 66, 54);
 		boton_Borrar.setForeground(new Color(255, 255, 255));
 		boton_Borrar.setBackground(Gris4);
