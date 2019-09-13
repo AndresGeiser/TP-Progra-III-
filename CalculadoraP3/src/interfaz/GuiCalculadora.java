@@ -5,11 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
-
 import logica.Calculadora;
-
 import javax.swing.JButton;
-
 import java.awt.Toolkit;
 import java.awt.Font;
 import java.awt.Color;
@@ -17,12 +14,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-
 import java.awt.GridLayout;
+import javax.swing.border.MatteBorder;
 
 public class GuiCalculadora 
 {
@@ -32,10 +28,11 @@ public class GuiCalculadora
 	private JScrollPane scrollPaneHistorial;
 	private JPanel panelHistorial;
 	
-	private JButton boton_0, boton_1, boton_2, boton_3, boton_4, boton_5, boton_6, boton_7, boton_8, boton_9, boton_Punto,
-					boton_Sum, boton_Rest, boton_Mult, boton_Div, boton_Igual, boton_Borrar, boton_Reset, verHistorial, guardar;
+	private JButton num_0, num_1, num_2, num_3, num_4, num_5, num_6, num_7, num_8, num_9, boton_Punto,
+						boton_Sum, boton_Rest, boton_Mult, boton_Div, boton_Igual, boton_Borrar, boton_Reset,
+							verHistorial, guardar, limpiar;
 
-	private Color colorNum, colorOperadores, colorNumHover, colorOperHover;
+	private Color Gris1, Gris2, Gris3, Gris4, Gris5, Naranja1, Naranja2; 
 	
 	private Calculadora calculadora;
 	
@@ -73,17 +70,20 @@ public class GuiCalculadora
 		numeroActual = "0";
 		sePresionoIgual = false;
 		
-		colorNum = new Color(38, 38, 38);
-		colorNumHover = new Color(51,51,51);
-		colorOperadores = new Color(77, 77, 77);
-		colorOperHover = new Color(102, 102, 102);
+		Gris1 = new Color(13, 13, 13);      //El numero al final del nombre indica el tono,
+		Gris2 = new Color(38,38,38);		//el 1 es mas oscuro que el 2, el 2 mas que el 3, etc...
+		Gris3 = new Color(51,51,51);
+		Gris4 = new Color(77, 77, 77);
+		Gris5 = new Color(102, 102, 102);
+		Naranja1 = new Color(204, 82, 0);
+		Naranja2 = new Color(255,133,51);
 		
 		inicializarCalculadora();
 		inicializarBotonesNum();
 		inicializarBotonesOperadores();
 		
 		//Funciones
-		boton_0.addActionListener(new ActionListener()
+		num_0.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
@@ -93,22 +93,22 @@ public class GuiCalculadora
 					{
 						if(!ultimoNumero().equals("0")) 
 						{
-							numeroActual += boton_0.getText();
-							agregar(boton_0.getText());
+							numeroActual += num_0.getText();
+							agregar(num_0.getText());
 						}
 						
 						else if(ultimoNumeroEsDecimal()) 
 						{
-							numeroActual += boton_0.getText();
-							agregar(boton_0.getText());
+							numeroActual += num_0.getText();
+							agregar(num_0.getText());
 						}
 						
 					}
 				}
 				else 
 				{
-					resultado.setText(boton_0.getText());
-					numeroActual = boton_0.getText();
+					resultado.setText(num_0.getText());
+					numeroActual = num_0.getText();
 					sePresionoIgual = false;
 				}
 			}
@@ -142,15 +142,15 @@ public class GuiCalculadora
 			}
 		};
 		
-		boton_1.addActionListener(accion1Al9);
-		boton_2.addActionListener(accion1Al9);
-		boton_3.addActionListener(accion1Al9);
-		boton_4.addActionListener(accion1Al9);
-		boton_5.addActionListener(accion1Al9);
-		boton_6.addActionListener(accion1Al9);
-		boton_7.addActionListener(accion1Al9);
-		boton_8.addActionListener(accion1Al9);
-		boton_9.addActionListener(accion1Al9);
+		num_1.addActionListener(accion1Al9);
+		num_2.addActionListener(accion1Al9);
+		num_3.addActionListener(accion1Al9);
+		num_4.addActionListener(accion1Al9);
+		num_5.addActionListener(accion1Al9);
+		num_6.addActionListener(accion1Al9);
+		num_7.addActionListener(accion1Al9);
+		num_8.addActionListener(accion1Al9);
+		num_9.addActionListener(accion1Al9);
 		
 		boton_Rest.addActionListener(new ActionListener()
 		{
@@ -345,30 +345,61 @@ public class GuiCalculadora
 				{
 					JButton boton= new JButton(resultado.getText());
 					boton.setToolTipText(resultado.getText());
+					boton.setBorder(new MatteBorder(3, 3, 3, 3, Naranja1));
 					boton.setForeground(new Color(255, 255, 255));
-					boton.setBackground(colorNum);
+					boton.setBackground(Gris2);
 					boton.setFont(new Font("Arial", Font.BOLD, 10));
 					boton.setFocusable(false);
-					boton.addActionListener(new ActionListener() {
-						
+					boton.setBorderPainted(false);
+					boton.addActionListener(new ActionListener() 
+					{	
 						@Override
 						public void actionPerformed(ActionEvent e) 
 						{
 							if(!sePresionoIgual)
 							{
-								numeroActual += boton.getText();
-								agregar(boton.getText());
+								if(resultado.getText().equals("0") || numeroActual.equals("0"))
+								{
+									reemplazarUltimoValor(boton.getText());
+									numeroActual = boton.getText();
+								}
+								else 
+								{
+									agregar(boton.getText());
+									numeroActual += boton.getText();
+								}
 							}
 							
 						}
 					});
+					boton.addMouseListener(new MouseAdapter() 
+					{
+						@Override
+						public void mouseEntered(MouseEvent arg0) 
+						{
+							boton.setBorderPainted(true);
+						}
+						@Override
+						public void mouseExited(MouseEvent e) 
+						{
+							boton.setBorderPainted(false);
+						}
+					});
+					
 					panelHistorial.add(boton);
 					panelHistorial.updateUI();
 				}
 			}
 		});
 		
-		
+		limpiar.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				panelHistorial.removeAll();
+				panelHistorial.updateUI();
+			}
+		});
 	}
 
 	//INICIALIZACION DE BOTONES
@@ -377,13 +408,11 @@ public class GuiCalculadora
 		frmCalculadora = new JFrame();
 		frmCalculadora.setResizable(false);
 		frmCalculadora.setIconImage(Toolkit.getDefaultToolkit().getImage(GuiCalculadora.class.getResource("/interfaz/iconCalculadora.png")));
-		frmCalculadora.getContentPane().setBackground(Color.BLACK);
-		frmCalculadora.setBackground(Color.WHITE);
 		frmCalculadora.setTitle("Calculadora");
-		frmCalculadora.setBounds(100, 100, 500, 335);
+		frmCalculadora.setBounds(100, 100, 336, 338);
 		frmCalculadora.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCalculadora.getContentPane().setLayout(null);
-		frmCalculadora.getContentPane().setBackground(new Color (13,13,13));
+		frmCalculadora.getContentPane().setBackground(Gris1);
 		
 		resultado = new JTextField("0");
 		resultado.setBackground(new Color(13,13,13));
@@ -397,144 +426,140 @@ public class GuiCalculadora
 		
 		scrollPaneHistorial = new JScrollPane();
 		scrollPaneHistorial.setBorder(null);
-		scrollPaneHistorial.setBounds(343, 73, 141, 227);
-		scrollPaneHistorial.getVerticalScrollBar().setBackground(colorOperadores);
-		scrollPaneHistorial.getVerticalScrollBar().setUI(new BasicScrollBarUI()
-		{
-			@Override
-				public void configureScrollBarColors()
-				{
-					this.thumbColor = colorNum;
-				}
-			
-			});
+		scrollPaneHistorial.setBounds(343, 71, 141, 228);
+		scrollPaneHistorial.getVerticalScrollBar().setBackground(Gris4);
+//		scrollPaneHistorial.getVerticalScrollBar().setUI(new BasicScrollBarUI()
+//		{
+//			@Override
+//			public void configureScrollBarColors()
+//			{
+//				this.thumbColor = colorNum;
+//			}
+//			
+//		});
 		
 		frmCalculadora.getContentPane().add(scrollPaneHistorial);
 		
 		
 		panelHistorial = new JPanel();
-		panelHistorial.setBackground(colorNum);
+		panelHistorial.setBackground(Gris2);
 		scrollPaneHistorial.setViewportView(panelHistorial);
 		panelHistorial.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		
-		
-		
-
 	}
 
 	private void inicializarBotonesNum() 
 	{		
-		boton_0 = new JButton("0");
-		boton_0.setForeground(new Color(255, 255, 255));
-		boton_0.setBackground(colorNum);
-		boton_0.setFont(new Font("Arial", Font.BOLD, 20));
-		boton_0.setBorderPainted(false);
-		boton_0.setFocusable(false);
-		boton_0.setBounds(0, 256, 66, 54);
-		frmCalculadora.getContentPane().add(boton_0);
+		num_0 = new JButton("0");
+		num_0.setForeground(new Color(255, 255, 255));
+		num_0.setBackground(Gris2);
+		num_0.setFont(new Font("Arial", Font.BOLD, 20));
+		num_0.setBorderPainted(false);
+		num_0.setFocusable(false);
+		num_0.setBounds(0, 256, 66, 54);
+		frmCalculadora.getContentPane().add(num_0);
 	
-		boton_1 = new JButton("1");
-		boton_1.setForeground(new Color(255, 255, 255));
-		boton_1.setBackground(colorNum);
-		boton_1.setFont(new Font("Arial", Font.BOLD, 20));
-		boton_1.setBorderPainted(false);
-		boton_1.setFocusable(false);
-		boton_1.setBounds(0, 202, 66, 54);
-		frmCalculadora.getContentPane().add(boton_1);
+		num_1 = new JButton("1");
+		num_1.setForeground(new Color(255, 255, 255));
+		num_1.setBackground(Gris2);
+		num_1.setFont(new Font("Arial", Font.BOLD, 20));
+		num_1.setBorderPainted(false);
+		num_1.setFocusable(false);
+		num_1.setBounds(0, 202, 66, 54);
+		frmCalculadora.getContentPane().add(num_1);
 	
-		boton_2 = new JButton("2");
-		boton_2.setForeground(new Color(255, 255, 255));
-		boton_2.setBackground(colorNum);
-		boton_2.setFont(new Font("Arial", Font.BOLD, 20));
-		boton_2.setBorderPainted(false);
-		boton_2.setFocusable(false);
-		boton_2.setBounds(66, 202, 66, 54);
-		frmCalculadora.getContentPane().add(boton_2);
+		num_2 = new JButton("2");
+		num_2.setForeground(new Color(255, 255, 255));
+		num_2.setBackground(Gris2);
+		num_2.setFont(new Font("Arial", Font.BOLD, 20));
+		num_2.setBorderPainted(false);
+		num_2.setFocusable(false);
+		num_2.setBounds(66, 202, 66, 54);
+		frmCalculadora.getContentPane().add(num_2);
 		
-		boton_3 = new JButton("3");
-		boton_3.setForeground(new Color(255, 255, 255));
-		boton_3.setBackground(colorNum);
-		boton_3.setFont(new Font("Arial", Font.BOLD, 20));
-		boton_3.setBorderPainted(false);
-		boton_3.setFocusable(false);
-		boton_3.setBounds(132, 202, 66, 54);
-		frmCalculadora.getContentPane().add(boton_3);
+		num_3 = new JButton("3");
+		num_3.setForeground(new Color(255, 255, 255));
+		num_3.setBackground(Gris2);
+		num_3.setFont(new Font("Arial", Font.BOLD, 20));
+		num_3.setBorderPainted(false);
+		num_3.setFocusable(false);
+		num_3.setBounds(132, 202, 66, 54);
+		frmCalculadora.getContentPane().add(num_3);
 		
-		boton_4 = new JButton("4");
-		boton_4.setForeground(new Color(255, 255, 255));
-		boton_4.setBackground(colorNum);
-		boton_4.setFont(new Font("Arial", Font.BOLD, 20));
-		boton_4.setBorderPainted(false);
-		boton_4.setFocusable(false);
-		boton_4.setBounds(0, 148, 66, 54);
-		frmCalculadora.getContentPane().add(boton_4);
+		num_4 = new JButton("4");
+		num_4.setForeground(new Color(255, 255, 255));
+		num_4.setBackground(Gris2);
+		num_4.setFont(new Font("Arial", Font.BOLD, 20));
+		num_4.setBorderPainted(false);
+		num_4.setFocusable(false);
+		num_4.setBounds(0, 148, 66, 54);
+		frmCalculadora.getContentPane().add(num_4);
 	
-		boton_5 = new JButton("5");
-		boton_5.setForeground(new Color(255, 255, 255));
-		boton_5.setBackground(colorNum);
-		boton_5.setFont(new Font("Arial", Font.BOLD, 20));
-		boton_5.setBorderPainted(false);
-		boton_5.setFocusable(false);
-		boton_5.setBounds(66, 148, 66, 54);
-		frmCalculadora.getContentPane().add(boton_5);
+		num_5 = new JButton("5");
+		num_5.setForeground(new Color(255, 255, 255));
+		num_5.setBackground(Gris2);
+		num_5.setFont(new Font("Arial", Font.BOLD, 20));
+		num_5.setBorderPainted(false);
+		num_5.setFocusable(false);
+		num_5.setBounds(66, 148, 66, 54);
+		frmCalculadora.getContentPane().add(num_5);
 		
-		boton_6 = new JButton("6");
-		boton_6.setForeground(new Color(255, 255, 255));
-		boton_6.setBackground(colorNum);
-		boton_6.setFont(new Font("Arial", Font.BOLD, 20));
-		boton_6.setBorderPainted(false);
-		boton_6.setFocusable(false);
-		boton_6.setBounds(132, 148, 66, 54);
-		frmCalculadora.getContentPane().add(boton_6);	
+		num_6 = new JButton("6");
+		num_6.setForeground(new Color(255, 255, 255));
+		num_6.setBackground(Gris2);
+		num_6.setFont(new Font("Arial", Font.BOLD, 20));
+		num_6.setBorderPainted(false);
+		num_6.setFocusable(false);
+		num_6.setBounds(132, 148, 66, 54);
+		frmCalculadora.getContentPane().add(num_6);	
 		
-		boton_7 = new JButton("7");
-		boton_7.setBorderPainted(false);
-		boton_7.setForeground(new Color(255, 255, 255));
-		boton_7.setBackground(colorNum);
-		boton_7.setFont(new Font("Arial", Font.BOLD, 20));
-		boton_7.setFocusable(false);
-		boton_7.setBounds(0, 94, 66, 54);
-		frmCalculadora.getContentPane().add(boton_7);
+		num_7 = new JButton("7");
+		num_7.setBorderPainted(false);
+		num_7.setForeground(new Color(255, 255, 255));
+		num_7.setBackground(Gris2);
+		num_7.setFont(new Font("Arial", Font.BOLD, 20));
+		num_7.setFocusable(false);
+		num_7.setBounds(0, 94, 66, 54);
+		frmCalculadora.getContentPane().add(num_7);
 		
-		boton_8 = new JButton("8");
-		boton_8.setForeground(new Color(255, 255, 255));
-		boton_8.setBackground(colorNum);
-		boton_8.setFont(new Font("Arial", Font.BOLD, 20));
-		boton_8.setBorderPainted(false);
-		boton_8.setFocusable(false);
-		boton_8.setBounds(66, 94, 66, 54);
-		frmCalculadora.getContentPane().add(boton_8);
+		num_8 = new JButton("8");
+		num_8.setForeground(new Color(255, 255, 255));
+		num_8.setBackground(Gris2);
+		num_8.setFont(new Font("Arial", Font.BOLD, 20));
+		num_8.setBorderPainted(false);
+		num_8.setFocusable(false);
+		num_8.setBounds(66, 94, 66, 54);
+		frmCalculadora.getContentPane().add(num_8);
 		
-		boton_9 = new JButton("9");
-		boton_9.setForeground(new Color(255, 255, 255));
-		boton_9.setBackground(colorNum);
-		boton_9.setFont(new Font("Arial", Font.BOLD, 20));
-		boton_9.setBorderPainted(false);
-		boton_9.setFocusable(false);
-		boton_9.setBounds(132, 94, 66, 54);
-		frmCalculadora.getContentPane().add(boton_9);
+		num_9 = new JButton("9");
+		num_9.setForeground(new Color(255, 255, 255));
+		num_9.setBackground(Gris2);
+		num_9.setFont(new Font("Arial", Font.BOLD, 20));
+		num_9.setBorderPainted(false);
+		num_9.setFocusable(false);
+		num_9.setBounds(132, 94, 66, 54);
+		frmCalculadora.getContentPane().add(num_9);
 		
 		boton_Punto = new JButton(".");
 		boton_Punto.setForeground(new Color(255, 255, 255));
-		boton_Punto.setBackground(colorNum);
+		boton_Punto.setBackground(Gris2);
 		boton_Punto.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_Punto.setBorderPainted(false);
 		boton_Punto.setFocusable(false);
 		boton_Punto.setBounds(66, 256, 66, 54);
 		frmCalculadora.getContentPane().add(boton_Punto);
 		
-		efectoHoverBoton(boton_0, colorNumHover, colorNum);
-		efectoHoverBoton(boton_1, colorNumHover, colorNum);
-		efectoHoverBoton(boton_2, colorNumHover, colorNum);
-		efectoHoverBoton(boton_3, colorNumHover, colorNum);
-		efectoHoverBoton(boton_4, colorNumHover, colorNum);
-		efectoHoverBoton(boton_5, colorNumHover, colorNum);
-		efectoHoverBoton(boton_6, colorNumHover, colorNum);
-		efectoHoverBoton(boton_7, colorNumHover, colorNum);
-		efectoHoverBoton(boton_8, colorNumHover, colorNum);
-		efectoHoverBoton(boton_9, colorNumHover, colorNum);
-		efectoHoverBoton(boton_Punto, colorNumHover, colorNum);
+		efectoHoverBoton(num_0, Gris3, Gris2);
+		efectoHoverBoton(num_1, Gris3, Gris2);
+		efectoHoverBoton(num_2, Gris3, Gris2);
+		efectoHoverBoton(num_3, Gris3, Gris2);
+		efectoHoverBoton(num_4, Gris3, Gris2);
+		efectoHoverBoton(num_5, Gris3, Gris2);
+		efectoHoverBoton(num_6, Gris3, Gris2);
+		efectoHoverBoton(num_7, Gris3, Gris2);
+		efectoHoverBoton(num_8, Gris3, Gris2);
+		efectoHoverBoton(num_9, Gris3, Gris2);
+		efectoHoverBoton(boton_Punto, Gris3, Gris2);
 	}
 
 	private void inicializarBotonesOperadores() 
@@ -543,7 +568,7 @@ public class GuiCalculadora
 		boton_Sum.setBorderPainted(false);
 		boton_Sum.setBounds(198, 175, 66, 81);
 		boton_Sum.setForeground(new Color(255, 255, 255));
-		boton_Sum.setBackground(colorOperadores);
+		boton_Sum.setBackground(Gris4);
 		boton_Sum.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_Sum.setFocusable(false);
 		frmCalculadora.getContentPane().add(boton_Sum);
@@ -551,7 +576,7 @@ public class GuiCalculadora
 		boton_Rest = new JButton("-");
 		boton_Rest.setBounds(264, 175, 66, 81);
 		boton_Rest.setForeground(new Color(255, 255, 255));
-		boton_Rest.setBackground(colorOperadores);
+		boton_Rest.setBackground(Gris4);
 		boton_Rest.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_Rest.setBorderPainted(false);
 		boton_Rest.setFocusable(false);
@@ -560,7 +585,7 @@ public class GuiCalculadora
 		boton_Div = new JButton("/");
 		boton_Div.setBounds(264, 94, 66, 81);
 		boton_Div.setForeground(new Color(255, 255, 255));
-		boton_Div.setBackground(colorOperadores);
+		boton_Div.setBackground(Gris4);
 		boton_Div.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_Div.setBorderPainted(false);
 		boton_Div.setFocusable(false);
@@ -569,7 +594,7 @@ public class GuiCalculadora
 		boton_Mult = new JButton("*");
 		boton_Mult.setBounds(198, 94, 66, 81);
 		boton_Mult.setForeground(new Color(255, 255, 255));
-		boton_Mult.setBackground(colorOperadores);
+		boton_Mult.setBackground(Gris4);
 		boton_Mult.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_Mult.setBorderPainted(false);
 		boton_Mult.setFocusable(false);
@@ -578,7 +603,7 @@ public class GuiCalculadora
 		boton_Borrar = new JButton("<");
 		boton_Borrar.setBounds(264, 256, 66, 54);
 		boton_Borrar.setForeground(new Color(255, 255, 255));
-		boton_Borrar.setBackground(colorOperadores);
+		boton_Borrar.setBackground(Gris4);
 		boton_Borrar.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_Borrar.setBorderPainted(false);
 		boton_Borrar.setFocusable(false);
@@ -587,16 +612,15 @@ public class GuiCalculadora
 		boton_Reset = new JButton("C");
 		boton_Reset.setBounds(198, 256, 66, 54);
 		boton_Reset.setForeground(new Color(255, 255, 255));
-		boton_Reset.setBackground(colorOperadores);
+		boton_Reset.setBackground(Gris4);
 		boton_Reset.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_Reset.setBorderPainted(false);
 		boton_Reset.setFocusable(false);
 		frmCalculadora.getContentPane().add(boton_Reset);
 	
 		boton_Igual = new JButton("=");
-		efectoHoverBoton(boton_Igual, new Color(255,133,51), new Color(204,82,0));
 		boton_Igual.setForeground(new Color(255, 255, 255));
-		boton_Igual.setBackground(new Color(204, 82, 0));
+		boton_Igual.setBackground(Naranja1);
 		boton_Igual.setFont(new Font("Arial", Font.BOLD, 20));
 		boton_Igual.setBounds(132, 256, 66, 54);
 		boton_Igual.setFocusable(false);
@@ -605,9 +629,8 @@ public class GuiCalculadora
 		
 		verHistorial = new JButton(">>>");
 		verHistorial.setToolTipText("Mostrar historial");
-		efectoHoverBoton(verHistorial, colorNumHover, colorNum);
 		verHistorial.setForeground(new Color(255, 255, 255));
-		verHistorial.setBackground(colorNum);
+		verHistorial.setBackground(Gris2);
 		verHistorial.setFont(new Font("Arial", Font.BOLD, 20));
 		verHistorial.setBorderPainted(false);
 		verHistorial.setFocusable(false);
@@ -615,40 +638,35 @@ public class GuiCalculadora
 		frmCalculadora.getContentPane().add(verHistorial);
 		
 		guardar = new JButton("Guardar");
-		efectoHoverBoton(guardar, colorOperHover, colorOperadores);
 		guardar.setForeground(Color.WHITE);
 		guardar.setFont(new Font("Arial", Font.BOLD, 10));
 		guardar.setFocusable(false);
 		guardar.setBorderPainted(false);
-		guardar.setBackground(colorOperadores);
+		guardar.setBackground(Gris4);
 		guardar.setBounds(0, 71, 198, 23);
 		frmCalculadora.getContentPane().add(guardar);
 		
-		efectoHoverBoton(boton_Sum, colorOperHover, colorOperadores);
-		efectoHoverBoton(boton_Rest, colorOperHover, colorOperadores);
-		efectoHoverBoton(boton_Div, colorOperHover, colorOperadores);
-		efectoHoverBoton(boton_Mult, colorOperHover, colorOperadores);
-		efectoHoverBoton(boton_Borrar, colorOperHover, colorOperadores);
-		efectoHoverBoton(boton_Reset, colorOperHover, colorOperadores);
-		efectoHoverBoton(boton_Igual, new Color(255,133,51), new Color(204,82,0));
-		
-		JButton limpiar = new JButton("Limpiar");
-		limpiar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				panelHistorial.removeAll();
-				panelHistorial.updateUI();
-			}
-		});
-		efectoHoverBoton(limpiar, colorNumHover, colorNum);
-		limpiar.setToolTipText("Mostrar historial");
+		limpiar = new JButton("Limpiar");
+		limpiar.setToolTipText("Limpiar historial");
 		limpiar.setForeground(Color.WHITE);
 		limpiar.setFont(new Font("Arial", Font.BOLD, 10));
 		limpiar.setFocusable(false);
 		limpiar.setBorderPainted(false);
 		limpiar.setBackground(new Color(38, 38, 38));
-		limpiar.setBounds(343, 39, 141, 23);
+		limpiar.setBounds(343, 8, 141, 54);
 		frmCalculadora.getContentPane().add(limpiar);
+
+		efectoHoverBoton(boton_Sum, Gris5, Gris4);
+		efectoHoverBoton(boton_Rest, Gris5, Gris4);
+		efectoHoverBoton(boton_Div, Gris5, Gris4);
+		efectoHoverBoton(boton_Mult, Gris5, Gris4);
+		efectoHoverBoton(boton_Borrar, Gris5, Gris4);
+		efectoHoverBoton(boton_Reset, Gris5, Gris4);
+		efectoHoverBoton(boton_Igual, Naranja2, Naranja1);
+		efectoHoverBoton(verHistorial, Naranja1, Gris2);
+		efectoHoverBoton(guardar, Naranja1, Gris4);	
+		efectoHoverBoton(limpiar, Naranja1, Gris2);
+		
 		
 	}
 
