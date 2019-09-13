@@ -123,11 +123,10 @@ public class Calculadora
 		else
 			ultimoNumero = String.valueOf(ultimoNumero());
 		
-		if(!ultimoNumero.substring(0, ultimoNumero.length() - 1).equals(""))
-			numeros.set(numeros.size() - 1, Double.parseDouble(ultimoNumero.substring(0, ultimoNumero.length() - 1)));
-				
-		else
+		if(ultimoNumero.length() == 1)
 			numeros.remove(numeros.size() - 1);
+		else
+			numeros.set(numeros.size() - 1, Double.parseDouble(ultimoNumero.substring(0, ultimoNumero.length() - 1)));
 	}
 	
 	private void borrarUltimoSigno() 
