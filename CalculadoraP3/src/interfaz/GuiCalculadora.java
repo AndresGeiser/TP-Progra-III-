@@ -335,7 +335,7 @@ public class GuiCalculadora
 			{
 				if(frmCalculadora.getWidth() == 336) 
 				{
-					frmCalculadora.setSize(500, 339);
+					frmCalculadora.setSize(490, 339);
 					verHistorial.setIcon(new ImageIcon(GuiCalculadora.class.getResource("/interfaz/flechasIzq.png")));
 					verHistorial.setToolTipText("Ocultar historial");
 				}
@@ -425,7 +425,7 @@ public class GuiCalculadora
 		
 		scrollPaneHistorial = new JScrollPane();
 		scrollPaneHistorial.setBorder(null);
-		scrollPaneHistorial.setBounds(343, 71, 141, 228);
+		scrollPaneHistorial.setBounds(337, 47, 141, 256);
 		scrollPaneHistorial.getVerticalScrollBar().setBackground(Gris4);
 		
 //		scrollPaneHistorial.getVerticalScrollBar().setUI(new BasicScrollBarUI()
@@ -649,8 +649,8 @@ public class GuiCalculadora
 		frmCalculadora.getContentPane().add(guardar);
 		
 		limpiar = new JButton();
-		limpiar.setIcon(new ImageIcon(GuiCalculadora.class.getResource("/interfaz/limpiar.png")));
-		limpiar.setBounds(343, 8, 141, 54);
+		limpiar.setIcon(new ImageIcon(GuiCalculadora.class.getResource("/interfaz/cesto.png")));
+		limpiar.setBounds(337, 8, 141, 30);
 		limpiar.setToolTipText("Limpiar historial");
 		limpiar.setForeground(Color.WHITE);
 		limpiar.setFont(new Font("Arial", Font.BOLD, 10));
