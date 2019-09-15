@@ -354,38 +354,7 @@ public class GuiCalculadora
 			{
 				if(sePresionoIgual) 
 				{
-					JButton boton= new JButton(resultado.getText());
-					boton.setToolTipText(ultimaOperacion + " = " + resultado.getText());
-					boton.setBorder(new MatteBorder(3, 3, 3, 3, Naranja1));
-					boton.setForeground(new Color(255, 255, 255));
-					boton.setBackground(Gris2);
-					boton.setFont(new Font("Arial", Font.BOLD, 10));
-					boton.setFocusable(false);
-					boton.setBorderPainted(false);
-					boton.addActionListener(new ActionListener() 
-					{	
-						@Override
-						public void actionPerformed(ActionEvent e) 
-						{
-							if(!sePresionoIgual)
-							{
-								if(ultimoNumero().equals("0"))
-								{
-									reemplazarUltimoValor(boton.getText());
-									numeroActual = boton.getText();
-								}
-								else 
-								{
-									agregar(boton.getText());
-									numeroActual += boton.getText();
-								}
-							}
-							
-						}
-					});
-					efectoHoverBoton(boton, Naranja2, Gris2);
-					
-					panelHistorial.add(boton);
+					panelHistorial.add(crearBotonConResultado());
 					panelHistorial.updateUI();
 				}
 			}
@@ -692,7 +661,39 @@ public class GuiCalculadora
 	}
 	
 	//METODOS AUXILIARES
-	
+	private JButton crearBotonConResultado() 
+	{
+		JButton boton= new JButton(resultado.getText());
+		boton.setToolTipText(ultimaOperacion + " = " + resultado.getText());
+		boton.setForeground(new Color(255, 255, 255));
+		boton.setBackground(Gris2);
+		boton.setFont(new Font("Arial", Font.BOLD, 10));
+		boton.setFocusable(false);
+		boton.setBorderPainted(false);
+		boton.addActionListener(new ActionListener() 
+		{	
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				if(!sePresionoIgual)
+				{
+					if(ultimoNumero().equals("0"))
+					{
+						reemplazarUltimoValor(boton.getText());
+						numeroActual = boton.getText();
+					}
+					else 
+					{
+						agregar(boton.getText());
+						numeroActual += boton.getText();
+					}
+				}
+				
+			}
+		});
+		efectoHoverBoton(boton, Naranja2, Gris2);
+		return boton;
+	}
 
 	private void operarConUltimoResultado(String operador) 
 	{
@@ -785,17 +786,7 @@ public class GuiCalculadora
 	//Dice si el ultimo numero de la cadena es un decimal
 	public boolean ultimoNumeroEsDecimal()
 	{
-		boolean esDecimal = false;
-		
-		for(int i=0; i< largo(); i++)
-		{
-			if(operacion().charAt(i) == '.') 
-				esDecimal = true;
-			
-			if(operacion().charAt(i) == '/' || operacion().charAt(i) == '*' || operacion().charAt(i) == '-' || operacion().charAt(i) == '+')
-				esDecimal = false;
-		}
-		return esDecimal;
+		return ultimoNumero().contains(".");
 	}
 	
 	//Devuelve la cadena con la operacion
@@ -815,4 +806,4 @@ public class GuiCalculadora
 	{
 		return resultado.getText().charAt(largo() - 1);
 	}
-}		
+}
