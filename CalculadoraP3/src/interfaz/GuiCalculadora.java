@@ -91,38 +91,7 @@ public class GuiCalculadora
 		inicializarBotonesOperadores();
 		
 		//Funciones
-		num_0.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				if(!sePresionoIgual)
-				{
-					if(!operacion().equals("0")) 
-					{
-						if(!ultimoNumero().equals("0")) 
-						{
-							numeroActual += num_0.getText();
-							agregar(num_0.getText());
-						}
-						
-						else if(ultimoNumeroEsDecimal()) 
-						{
-							numeroActual += num_0.getText();
-							agregar(num_0.getText());
-						}
-						
-					}
-				}
-				else 
-				{
-					resultado.setText(num_0.getText());
-					numeroActual = num_0.getText();
-					sePresionoIgual = false;
-				}
-			}
-		});
-		
-		ActionListener accion1Al9 = new ActionListener()
+		ActionListener accionNumeros = new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{	
@@ -150,15 +119,16 @@ public class GuiCalculadora
 			}
 		};
 		
-		num_1.addActionListener(accion1Al9);
-		num_2.addActionListener(accion1Al9);
-		num_3.addActionListener(accion1Al9);
-		num_4.addActionListener(accion1Al9);
-		num_5.addActionListener(accion1Al9);
-		num_6.addActionListener(accion1Al9);
-		num_7.addActionListener(accion1Al9);
-		num_8.addActionListener(accion1Al9);
-		num_9.addActionListener(accion1Al9);
+		num_0.addActionListener(accionNumeros);
+		num_1.addActionListener(accionNumeros);
+		num_2.addActionListener(accionNumeros);
+		num_3.addActionListener(accionNumeros);
+		num_4.addActionListener(accionNumeros);
+		num_5.addActionListener(accionNumeros);
+		num_6.addActionListener(accionNumeros);
+		num_7.addActionListener(accionNumeros);
+		num_8.addActionListener(accionNumeros);
+		num_9.addActionListener(accionNumeros);
 		
 		boton_Rest.addActionListener(new ActionListener()
 		{
@@ -316,15 +286,23 @@ public class GuiCalculadora
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if(ultimoEsSigno())
+				if(sePresionoIgual) 
 				{
+					resultado.setText("0.");
 					numeroActual = "0.";
-					agregar(numeroActual);
 				}
-				if(!ultimoNumeroEsDecimal()) 
+				else 
 				{
-					numeroActual += boton_Punto.getText();
-					agregar(boton_Punto.getText());
+					if(ultimoEsSigno())
+					{
+						numeroActual = "0.";
+						agregar(numeroActual);
+					}
+					if(!ultimoNumeroEsDecimal()) 
+					{
+						numeroActual += boton_Punto.getText();
+						agregar(boton_Punto.getText());
+					}
 				}
 			}
 		});
