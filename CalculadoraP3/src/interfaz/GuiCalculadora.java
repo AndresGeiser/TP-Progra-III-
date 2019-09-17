@@ -375,16 +375,6 @@ public class GuiCalculadora
 		scrollPaneHistorial.setBounds(337, 47, 141, 256);
 		scrollPaneHistorial.getVerticalScrollBar().setBackground(Gris4);
 		
-//		scrollPaneHistorial.getVerticalScrollBar().setUI(new BasicScrollBarUI()
-//		{
-//			@Override
-//			public void configureScrollBarColors()
-//			{
-//				this.thumbColor = colorNum;
-//			}
-//			
-//		});
-		
 		frmCalculadora.getContentPane().add(scrollPaneHistorial);
 		
 		
