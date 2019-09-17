@@ -9,238 +9,155 @@ public class CalculadoraTest
 	Calculadora calculadora;
 
 	@Before
-	public void iniCalculadora() 
+	public void iniCalculadora()
 	{
 		calculadora = new Calculadora();
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void valorInvalido()
+	@Test(expected = RuntimeException.class)
+	public void calcularSinNumeros() 
 	{
-		calculadora.obtenerValor("k");
+		calculadora.calcular();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void obtenerOperadorInvalido()
+	{
+		calculadora.obtenerOperador("{");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void valorConMasDeUnCaracter() 
 	{
-		calculadora.obtenerValor("1312");
+		calculadora.obtenerOperador("dl");
 	}
 	
 	@Test
-	public void unSoloNumero() 
-	{	
-		calculadora.obtenerValor("3");
-		calculadora.obtenerValor("4");
-		calculadora.obtenerValor("6");
-		calculadora.obtenerValor("=");
+	public void obtenerNumero() 
+	{
+		calculadora.obtenerNumero(15);
+		calculadora.calcular();
 		
-		assertTrue(346 == calculadora.getResultado());
+		assertTrue(15 == calculadora.getResultado());
 	}
 	
 	@Test
-	public void unSoloNumeroDecimal() 
+	public void reemplazarUltimoNumero() 
 	{
-		calculadora.obtenerValor(".");
-		calculadora.obtenerValor("4");
-		calculadora.obtenerValor("6");
-		calculadora.obtenerValor("=");
+		calculadora.obtenerNumero(57);
+		calculadora.obtenerNumero(105);
+		calculadora.calcular();
 		
-		assertTrue(0.46 == calculadora.getResultado());
+		assertTrue(105 == calculadora.getResultado());
 	}
 	
 	@Test
-	public void unSoloNumeroNegativo() 
+	public void obtenerOperadorSuma() 
 	{
-		calculadora.obtenerValor("-");
-		calculadora.obtenerValor("9");
-		calculadora.obtenerValor("9");
-		calculadora.obtenerValor("=");
+		calculadora.obtenerNumero(1000);
+		calculadora.obtenerOperador("+");
+		calculadora.obtenerNumero(450);
+		calculadora.calcular();
 		
-		assertTrue(-99 == calculadora.getResultado());
-	}
-	
-	@Test
-	public void sumar()
-	{
-		calculadora.obtenerValor("3");
-		calculadora.obtenerValor("4");
-		calculadora.obtenerValor("+");
-		calculadora.obtenerValor("2");
-		calculadora.obtenerValor("=");
-
-		assertTrue(36 == calculadora.getResultado());
-	}
-	
-	@Test
-	public void sumaConNegativoAdelante() 
-	{
-		calculadora.obtenerValor("-");
-		calculadora.obtenerValor("4");
-		calculadora.obtenerValor("6");
-		calculadora.obtenerValor("+");
-		calculadora.obtenerValor("4");
-		calculadora.obtenerValor("0");
-		calculadora.obtenerValor("=");
-	
-		assertTrue(-6 == calculadora.getResultado());
-	}
-	
-	@Test 
-	public void sumarDecimales()
-	{
-		calculadora.obtenerValor("2");
-		calculadora.obtenerValor(".");
-		calculadora.obtenerValor("5");
-		calculadora.obtenerValor("+");
-		calculadora.obtenerValor("2");
-		calculadora.obtenerValor(".");
-		calculadora.obtenerValor("2");
-		calculadora.obtenerValor("=");
-		
-		assertTrue((float)4.7 == calculadora.getResultado());
+		assertTrue(1000 + 450 == calculadora.getResultado());
 	}
 
 	@Test
-	public void restar()
+	public void obtenerOperadorResta() 
 	{
-		calculadora.obtenerValor("3");
-		calculadora.obtenerValor("-");
-		calculadora.obtenerValor("2");
-		calculadora.obtenerValor("=");
+		calculadora.obtenerNumero(708);
+		calculadora.obtenerOperador("-");
+		calculadora.obtenerNumero(480);
+		calculadora.calcular();
 		
-		assertTrue(1 == calculadora.getResultado());
+		assertTrue(708 - 480 == calculadora.getResultado());
 	}
 	
 	@Test
-	public void restarDecimales()
+	public void obtenerOperadorMultiplicacion() 
 	{
-		calculadora.obtenerValor("0.5");
-		calculadora.obtenerValor("-");
-		calculadora.obtenerValor("0.4");
-		calculadora.obtenerValor("=");
+		calculadora.obtenerNumero(7);
+		calculadora.obtenerOperador("*");
+		calculadora.obtenerNumero(429);
+		calculadora.calcular();
 		
-		assertTrue( (float)0.1 == calculadora.getResultado());
-	}
-	
-	
-	@Test
-	public void restaNegativos()
-	{
-		calculadora.obtenerValor("-5");
-		calculadora.obtenerValor("+");
-		calculadora.obtenerValor("-3");
-		calculadora.obtenerValor("=");
-		
-		assertTrue(-8 == calculadora.getResultado());
+		assertTrue(7 * 429 == calculadora.getResultado());
 	}
 	
 	@Test
-	public void multiplicar()
+	public void obtenerOperadorDivision() 
 	{
-		calculadora.obtenerValor("2");
-		calculadora.obtenerValor("*");
-		calculadora.obtenerValor("5");
-		calculadora.obtenerValor("=");
+		calculadora.obtenerNumero(390);
+		calculadora.obtenerOperador("/");
+		calculadora.obtenerNumero(6);
+		calculadora.calcular();
 		
-		assertTrue(10 == calculadora.getResultado());
-	}
-	
-	@Test
-	public void multiplicarDecimales()
-	{
-		calculadora.obtenerValor("2.5");
-		calculadora.obtenerValor("*");
-		calculadora.obtenerValor("2.5");
-		calculadora.obtenerValor("=");
-		
-		assertTrue((float)6.25 == calculadora.getResultado());
+		assertTrue(390 / 6 == calculadora.getResultado());
 	}
 	
 	@Test
 	public void ordenDeOperaciones()
 	{
-		calculadora.obtenerValor("3");
-		calculadora.obtenerValor("+");
-		
-		calculadora.obtenerValor("3");
-		calculadora.obtenerValor("*");
-		calculadora.obtenerValor("3");
+		calculadora.obtenerNumero(3);
+		calculadora.obtenerOperador("+");
+		calculadora.obtenerNumero(3);
+		calculadora.obtenerOperador("*");
+		calculadora.obtenerNumero(3);
 	
-		calculadora.obtenerValor("=");
+		calculadora.calcular();
 		
-		assertTrue(12 == calculadora.getResultado());
+		assertTrue( 3 + 3 * 3 == calculadora.getResultado());
 	}
 	
-	@Test
-	public void dividir()
-	{	
-		calculadora.obtenerValor("16");
-		calculadora.obtenerValor("/");
-		calculadora.obtenerValor("2");
-		calculadora.obtenerValor("=");
-		
-		assertTrue(8 == calculadora.getResultado());
-	}
+
 	 
 	@Test
 	public void borrarNumero()
 	{	
-		calculadora.obtenerValor("255");
-		calculadora.obtenerValor("<");
+		calculadora.obtenerNumero(255);
+		calculadora.borrar();
+		calculadora.calcular();
 		
-		assertTrue(25  == Double.parseDouble(calculadora.getNumeroActual()));
+		assertTrue(25  == calculadora.getResultado());
 	}
 	
 	@Test
 	public void borrarSigno()
 	{
-		calculadora.obtenerValor("5");
-		calculadora.obtenerValor("-");
-		calculadora.obtenerValor("<");
-
+		calculadora.obtenerNumero(5);
+		calculadora.obtenerOperador("-");
+		calculadora.borrar();
+		calculadora.obtenerNumero(6);
+		calculadora.calcular();
 		
-		assertTrue(5 == Double.parseDouble(calculadora.getNumeroActual()));
+		assertTrue(6 == calculadora.getResultado());
 	}
 	
-	@Test
-	public void simplificar()
-	{
-		calculadora.obtenerValor("0");
-		calculadora.obtenerValor(".");
-		calculadora.obtenerValor("=");
-		
-		assertTrue(0 == calculadora.getResultado());
-		
-	}
-	
-	@Test
-	public void simplificarPunto()
-	{
-		calculadora.obtenerValor(".");
-		calculadora.obtenerValor("=");
-		
-		assertTrue(0 == calculadora.getResultado());
-	}
-	
-	@Test
+	@Test(expected = RuntimeException.class)
 	public void resetear()
 	{
-		calculadora.obtenerValor("123");
-		calculadora.obtenerValor("C");
+		calculadora.obtenerNumero(45);
+		calculadora.obtenerOperador("+");
+		calculadora.obtenerNumero(5.28);
+		calculadora.obtenerOperador("*");
+		calculadora.obtenerNumero(24);
+		calculadora.reset();
+		calculadora.calcular();
 		
-		assertTrue(0 == calculadora.getResultado() );
 	}
 	
 	@Test
-	public void cambiarUltimoSigno()
+	public void obtenerOperadorYReemplazarUltimoSigno() 
 	{
-		calculadora.obtenerValor("3");
-		calculadora.obtenerValor("+");
-		calculadora.obtenerValor("-");
+		calculadora.obtenerNumero(33);
+		calculadora.obtenerOperador("-");
+		calculadora.obtenerOperador("*");
+		calculadora.obtenerOperador("+");
+		calculadora.obtenerNumero(2);
+		calculadora.calcular();
 		
-		assertEquals("-",calculadora.getUltimoSigno());
-	
+		assertTrue(33 + 2 == calculadora.getResultado());
 	}
-		
 
 }
+	
